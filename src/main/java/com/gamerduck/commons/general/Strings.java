@@ -196,7 +196,7 @@ public class Strings {
 	 * @return A boolean, whether or not the string is empty
 	 */
 	public static boolean isEmpty(String str) {
-		return str.equals("") || str == null || str.isEmpty() || str.isBlank() ? true : false;
+		return str.equals("") || str == null || str.isEmpty() ? true : false;
 	}
 
 	/**
