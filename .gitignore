@@ -1,0 +1,18 @@
+# IntelliJ IDEA
+*.iml
+.idea/
+
+# Maven
+target/
+dependency-reduced-pom.xml
+
+# Mac OS
+.DS_Store
+
+# Eclipse
+.classpath
+.project
+.settings/ 
+
+*.bak
+*.txt
