@@ -60,7 +60,8 @@ public class DuckSkull extends DuckItem {
 	 * @return The head with a custom texture.
 	 */
 	public ItemStack fromBase64(String base64) {
-		if (!(getItemMeta() instanceof SkullMeta meta)) return null;
+		if (!(getItemMeta() instanceof SkullMeta)) return this;
+		SkullMeta meta = (SkullMeta) getItemMeta();
 		mutateItemMeta(meta, base64);
 		setItemMeta(meta);
 		return this;
