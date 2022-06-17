@@ -19,7 +19,7 @@ public class DuckLogger {
 		Bukkit.getLogger().warning(str);
 	}
 	
-	public static void sendMesasge(String str) {
+	public static void sendMessage(String str) {
 		Bukkit.getLogger().log(Level.INFO, Strings.color(str));
 	}
 }
