@@ -292,8 +292,9 @@ public class DuckItem extends ItemStack {
 	 */
 	@Deprecated
 	public DuckItem skullOwner(String name) {
-		if (!(meta instanceof SkullMeta skullMeta)) return this;
+		if (!(meta instanceof SkullMeta)) return this;
 		if (getType() != Material.PLAYER_HEAD) return this;
+		SkullMeta skullMeta = (SkullMeta) meta;
 		skullMeta.setOwnerProfile(Bukkit.getOfflinePlayer(name).getPlayerProfile());
 		setItemMeta(skullMeta);
 		return this;
