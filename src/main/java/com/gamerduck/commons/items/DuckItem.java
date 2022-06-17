@@ -26,7 +26,7 @@ public class DuckItem extends ItemStack {
 	private ItemMeta meta;
 	private List<String> lore;
 
-	public DuckItem(Material mat, int amount) {
+	protected DuckItem(Material mat, int amount) {
 		super(mat, amount);
 		meta = getItemMeta();
 		lore = new ArrayList<String>();
