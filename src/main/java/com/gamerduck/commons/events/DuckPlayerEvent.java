@@ -6,6 +6,12 @@ import org.bukkit.event.HandlerList;
 
 import lombok.Getter;
 
+/**
+ * This class replaces Event, and is aimed towards player based events
+ * 
+ * @author GamerDuck123
+ *
+ */
 public abstract class DuckPlayerEvent extends DuckEvent implements Cancellable {
 	@Getter Player player;
 	public DuckPlayerEvent(Player player) {

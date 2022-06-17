@@ -5,7 +5,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import org.bukkit.plugin.java.JavaPlugin;
-
+/**
+ * This class will allow you to register all of the AbstractDuckListener classes
+ * 
+ * @author GamerDuck123
+ *
+ */
 public class DuckListenerHandler {
 	
 	public DuckListenerHandler(JavaPlugin main, List<Class<?>> classes) {

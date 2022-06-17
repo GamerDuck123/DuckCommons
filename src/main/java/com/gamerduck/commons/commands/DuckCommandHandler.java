@@ -6,7 +6,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.plugin.java.JavaPlugin;
-
+/**
+ * This class will allow you to register all of the AbstractDuckCommand classes
+ * 
+ * @author GamerDuck123
+ *
+ */
 public class DuckCommandHandler {
 	
 	public DuckCommandHandler(JavaPlugin main, String pluginname, List<Class<?>> classes) {

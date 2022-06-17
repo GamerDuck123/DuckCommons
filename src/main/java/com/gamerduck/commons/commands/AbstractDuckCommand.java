@@ -10,7 +10,13 @@ import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.command.TabExecutor;
-
+/**
+ * AbstractDuckCommand is meant to be used in place of CommandExecutor and TabExecutor
+ * This class acts a way for DuckCommandHandler to figure out what to register
+ * 
+ * @author GamerDuck123
+ *
+ */
 public abstract class AbstractDuckCommand implements CommandExecutor, TabExecutor {
 
     protected static CommandMap cmap;

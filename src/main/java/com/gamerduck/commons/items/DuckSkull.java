@@ -16,6 +16,14 @@ import org.bukkit.inventory.meta.SkullMeta;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 
+/**
+ * DuckSkull is meant to be used in place of ItemStack
+ * Class will work the same as ItemStack, just adds a few shortcuts to make life easier
+ * This class is focused on replacing skulls specifically
+ * 
+ * @author GamerDuck123
+ *
+ */
 public class DuckSkull extends DuckItem {
 	public DuckSkull() {
 		super(Material.PLAYER_HEAD, 1);

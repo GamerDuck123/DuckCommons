@@ -39,7 +39,7 @@ public class DuckItem extends ItemStack {
 	/**
 	 * Set the display name of the item
 	 * 
-	 * @param name
+	 * @param name the new displayname of the itemstack
 	 * @return the same class with the display name changed
 	 */
 	public DuckItem withDisplayName(String name) {
@@ -52,7 +52,7 @@ public class DuckItem extends ItemStack {
 	 * Set the material of the item
 	 * (defaulted to stone if not set)
 	 * 
-	 * @param material
+	 * @param material the new material of the itemstack
 	 * @return the same class with the material changed
 	 */
 	public DuckItem withMaterial(Material material) {
@@ -64,7 +64,7 @@ public class DuckItem extends ItemStack {
 	 * Set the amount of the item
 	 * (defaulted to 1 if not set)
 	 * 
-	 * @param amount
+	 * @param amount the new amount of the itemstack
 	 * @return the same class with the amount changed
 	 */
 	public DuckItem withAmount(Integer amount) {
@@ -75,7 +75,7 @@ public class DuckItem extends ItemStack {
 	/**
 	 * Set the lore of the item
 	 * 
-	 * @param lore
+	 * @param lore the new lore
 	 * @return the same class with the lore changed
 	 */
 	public DuckItem withLore(List<String> lore) {
@@ -89,7 +89,7 @@ public class DuckItem extends ItemStack {
 	 * Add to the current lore of the item
 	 * If there was no previously set lore, it'll start with a new list
 	 * 
-	 * @param string
+	 * @param string the string to be added to the lore
 	 * @return the same class with the lore changed
 	 */
 	public DuckItem addToLore(String string) {
@@ -103,7 +103,7 @@ public class DuckItem extends ItemStack {
 	 * Add to the current lore of the item
 	 * If there was no previously set lore, it'll start with a new list
 	 * 
-	 * @param strings
+	 * @param strings the strings to be added to the lore
 	 * @return the same class with the lore changed
 	 */
 	public DuckItem addToLore(String... strings) {
@@ -116,7 +116,7 @@ public class DuckItem extends ItemStack {
 	/**
 	 * Set the custom model data of the item
 	 * 
-	 * @param data
+	 * @param data the custom model data
 	 * @return the same class with the custom model data changed
 	 */
 	public DuckItem withCustomModelData(Integer data) {
@@ -128,8 +128,8 @@ public class DuckItem extends ItemStack {
 	/**
 	 * Set the persistent data container (String) of the item
 	 * 
-	 * @param key
-	 * @param object
+	 * @param key the namespacekey to be added to persistent data
+	 * @param object the object for persistent data
 	 * @return the same class with the persistent data container changed
 	 */
 	public DuckItem withPersistentDataContainer(NamespacedKey key, String object) {
@@ -141,8 +141,8 @@ public class DuckItem extends ItemStack {
 	/**
 	 * Set the persistent data container (Integer) of the item
 	 * 
-	 * @param key
-	 * @param object
+	 * @param key the namespacekey to be added to persistent data
+	 * @param object the object for persistent data
 	 * @return the same class with the persistent data container changed
 	 */
 	public DuckItem withPersistentDataContainer(NamespacedKey key, Integer object) {
@@ -155,8 +155,8 @@ public class DuckItem extends ItemStack {
 	/**
 	 * Set the persistent data container (Integer Array) of the item
 	 * 
-	 * @param key
-	 * @param object
+	 * @param key the namespacekey to be added to persistent data
+	 * @param object the object for persistent data
 	 * @return the same class with the persistent data container changed
 	 */
 	public DuckItem withPersistentDataContainer(NamespacedKey key, int[] object) {
@@ -169,8 +169,8 @@ public class DuckItem extends ItemStack {
 	/**
 	 * Set the persistent data container (Double) of the item
 	 * 
-	 * @param key
-	 * @param object
+	 * @param key the namespacekey to be added to persistent data
+	 * @param object the object for persistent data
 	 * @return the same class with the persistent data container changed
 	 */
 	public DuckItem withPersistentDataContainer(NamespacedKey key, Double object) {
@@ -183,8 +183,8 @@ public class DuckItem extends ItemStack {
 	/**
 	 * Set the persistent data container (Float) of the item
 	 * 
-	 * @param key
-	 * @param object
+	 * @param key the namespacekey to be added to persistent data
+	 * @param object the object for persistent data
 	 * @return the same class with the persistent data container changed
 	 */
 	public DuckItem withPersistentDataContainer(NamespacedKey key, Float object) {
@@ -197,8 +197,8 @@ public class DuckItem extends ItemStack {
 	/**
 	 * Set the persistent data container (Long) of the item
 	 * 
-	 * @param key
-	 * @param object
+	 * @param key the namespacekey to be added to persistent data
+	 * @param object the object for persistent data
 	 * @return the same class with the persistent data container changed
 	 */
 	public DuckItem withPersistentDataContainer(NamespacedKey key, Long object) {
@@ -210,8 +210,8 @@ public class DuckItem extends ItemStack {
 	/**
 	 * Set the persistent data container (Long Array) of the item
 	 * 
-	 * @param key
-	 * @param object
+	 * @param key the namespacekey to be added to persistent data
+	 * @param object the object for persistent data
 	 * @return the same class with the persistent data container changed
 	 */
 	public DuckItem withPersistentDataContainer(NamespacedKey key, long[] object) {
@@ -224,8 +224,8 @@ public class DuckItem extends ItemStack {
 	/**
 	 * Set the persistent data container (Short) of the item
 	 * 
-	 * @param key
-	 * @param object
+	 * @param key the namespacekey to be added to persistent data
+	 * @param object the object for persistent data
 	 * @return the same class with the persistent data container changed
 	 */
 	public DuckItem withPersistentDataContainer(NamespacedKey key, Short object) {
@@ -238,8 +238,8 @@ public class DuckItem extends ItemStack {
 	/**
 	 * Add an enchantment to the item
 	 * 
-	 * @param enchantment
-	 * @param level
+	 * @param enchantment the enchantment to be added
+	 * @param level the level of the enchant to be added
 	 * @return the same class with the enchants changed
 	 */
 	public DuckItem withEnchant(Enchantment enchantment, int level) {
@@ -250,8 +250,7 @@ public class DuckItem extends ItemStack {
 	/**
 	 * Remove an enchantment to the item
 	 * 
-	 * @param enchantment
-	 * @param level
+	 * @param enchantment the enchantment to add to the item
 	 * @return the same class with the enchants changed
 	 */
 	public DuckItem withoutEnchant(Enchantment enchantment) {
@@ -262,7 +261,7 @@ public class DuckItem extends ItemStack {
 	/**
 	 * Add an (or multiple) item flag(s) to the item 
 	 * 
-	 * @param flag
+	 * @param flag the item flag(s)
 	 * @return the same class with the item flags changed
 	 */
 	public DuckItem withFlags(ItemFlag ...flag) {
@@ -274,7 +273,7 @@ public class DuckItem extends ItemStack {
 	/**
 	 * Remove an (or multiple) item flag(s) to the item 
 	 * 
-	 * @param flag
+	 * @param flag the item flag(s)
 	 * @return the same class with the item flags changed
 	 */
 	public DuckItem withoutFlags(ItemFlag ...flag) {
@@ -284,22 +283,11 @@ public class DuckItem extends ItemStack {
 	}
 
 	/**
-	 * Change the skull meta of the item
-	 * 
-	 * @deprecated Deprecated as names are a terrible way to get players
-	 * @param name
-	 * @return the same class with the skull meta changed
+	 * Turn a normal ItemStack into a DuckItem
+	 *
+	 * @param item   The ItemStack to turn into a DuckItem.
+	 * @return The new DuckItem class
 	 */
-	@Deprecated
-	public DuckItem skullOwner(String name) {
-		if (!(meta instanceof SkullMeta)) return this;
-		if (getType() != Material.PLAYER_HEAD) return this;
-		SkullMeta skullMeta = (SkullMeta) meta;
-		skullMeta.setOwnerProfile(Bukkit.getOfflinePlayer(name).getPlayerProfile());
-		setItemMeta(skullMeta);
-		return this;
-	}
-
 	public static DuckItem fromItemStack(ItemStack item) {
 		return (DuckItem) item;
 	}
