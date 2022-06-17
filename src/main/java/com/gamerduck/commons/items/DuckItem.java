@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 /**
@@ -278,6 +278,44 @@ public class DuckItem extends ItemStack {
 	 */
 	public DuckItem withoutFlags(ItemFlag ...flag) {
 		meta.removeItemFlags(flag);
+		setItemMeta(meta);
+		return this;
+	}
+
+	/**
+	 * Add an attribute
+	 * 
+	 * @param attr The attribute to add
+	 * @param attrmodify The attribute's modifier
+	 * @return the same class with the attribute added
+	 */
+	public DuckItem withAttribute(Attribute attr, AttributeModifier attrmodify) {
+		meta.addAttributeModifier(attr, attrmodify);
+		setItemMeta(meta);
+		return this;
+	}
+
+	/**
+	 * Remove an attribute
+	 * 
+	 * @param attr The attribute to remove
+	 * @param attrmodify The attribute's modifier
+	 * @return the same class with the attribute removed
+	 */
+	public DuckItem withoutAttribute(Attribute attr, AttributeModifier attrmodify) {
+		meta.removeAttributeModifier(attr, attrmodify);
+		setItemMeta(meta);
+		return this;
+	}
+
+	/**
+	 * Remove an attribute
+	 * 
+	 * @param attr The attribute to remove
+	 * @return the same class with the attribute removed
+	 */
+	public DuckItem withoutAttribute(Attribute attr) {
+		meta.removeAttributeModifier(attr);
 		setItemMeta(meta);
 		return this;
 	}
