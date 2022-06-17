@@ -114,6 +114,20 @@ public class DuckItem extends ItemStack {
 	}
 
 	/**
+	 * Add to the current lore of the item
+	 * If there was no previously set lore, it'll start with a new list
+	 * 
+	 * @param strings the string list to be added to the lore
+	 * @return the same class with the lore changed
+	 */
+	public DuckItem addToLore(List<String> strings) {
+		lore.addAll(strings); 
+		meta.setLore(lore);
+		setItemMeta(meta);
+		return this;
+	}
+	
+	/**
 	 * Set the custom model data of the item
 	 * 
 	 * @param data the custom model data
