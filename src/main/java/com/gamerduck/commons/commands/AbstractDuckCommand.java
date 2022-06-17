@@ -11,7 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.command.TabExecutor;
 
-public abstract class AbstractCommand implements CommandExecutor, TabExecutor {
+public abstract class AbstractDuckCommand implements CommandExecutor, TabExecutor {
 
     protected static CommandMap cmap;
     
@@ -38,9 +38,9 @@ public abstract class AbstractCommand implements CommandExecutor, TabExecutor {
     }
     
 private final class ReflectCommand extends Command {
-    private AbstractCommand exe = null;
+    private AbstractDuckCommand exe = null;
     protected ReflectCommand(String command) { super(command); }
-    public void setExecutor(AbstractCommand exe) { this.exe = exe; }
+    public void setExecutor(AbstractDuckCommand exe) { this.exe = exe; }
     @Override public boolean execute(CommandSender sender, String commandLabel, String[] args) {
 		if (sender instanceof ConsoleCommandSender) {sender.sendMessage("This is a player only command"); return true;} 
         if (exe != null) { return exe.onCommand(sender, this, commandLabel, args); }
