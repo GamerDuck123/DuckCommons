@@ -1,4 +1,4 @@
-package com.gamerduck.commons.utils;
+package com.gamerduck.commons.general;
 
 import java.util.Arrays;
 import java.util.List;

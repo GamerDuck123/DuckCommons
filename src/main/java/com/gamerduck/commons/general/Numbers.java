@@ -1,4 +1,4 @@
-package com.gamerduck.commons.utils;
+package com.gamerduck.commons.general;
 
 public class Numbers {
 	public static boolean isNumber(String str) {

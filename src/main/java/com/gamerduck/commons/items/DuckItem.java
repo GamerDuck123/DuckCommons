@@ -300,6 +300,10 @@ public class DuckItem extends ItemStack {
 		return this;
 	}
 
+	public static DuckItem fromItemStack(ItemStack item) {
+		return (DuckItem) item;
+	}
+	
 	/**
 	 * Returns the item
 	 * 
