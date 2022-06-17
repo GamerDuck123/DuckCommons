@@ -2,14 +2,14 @@ package com.gamerduck.commons.commands;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class DuckCommandHandler {
 	
-	public DuckCommandHandler(JavaPlugin main, String pluginname, ArrayList<Class<?>> classes) {
+	public DuckCommandHandler(JavaPlugin main, String pluginname, List<Class<?>> classes) {
 		main.getLogger().info("Loading commands..");
 		for (Class<?> clazz : classes) {
 	    	if (AbstractDuckCommand.class.isAssignableFrom(clazz)) {

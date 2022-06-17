@@ -2,13 +2,13 @@ package com.gamerduck.commons.listeners;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
+import java.util.List;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class DuckListenerHandler {
 	
-	public DuckListenerHandler(JavaPlugin main, ArrayList<Class<?>> classes) {
+	public DuckListenerHandler(JavaPlugin main, List<Class<?>> classes) {
 		main.getLogger().info("Loading listeners..");
 		for (Class<?> clazz : classes) {
 	    	if (AbstractDuckListener.class.isAssignableFrom(clazz)) {
