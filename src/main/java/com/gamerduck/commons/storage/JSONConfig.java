@@ -94,6 +94,7 @@ public class JSONConfig {
 		} catch (FileNotFoundException | UnsupportedEncodingException e) {e.printStackTrace();} 
 	}
 
+	@SuppressWarnings("unchecked")
 	public void save() {
 		try {
 			JSONObject toSave = new JSONObject();

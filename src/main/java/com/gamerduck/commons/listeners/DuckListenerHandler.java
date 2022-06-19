@@ -14,7 +14,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class DuckListenerHandler {
 	
 	public DuckListenerHandler(JavaPlugin main, List<Class<?>> classes) {
-		main.getLogger().info("Loading listeners..");
 		for (Class<?> clazz : classes) {
 	    	if (AbstractDuckListener.class.isAssignableFrom(clazz)) {
 	    		Annotation[] annons = clazz.getAnnotations();
@@ -31,7 +30,6 @@ public class DuckListenerHandler {
 	    		}
 	    	}
 		}
-		main.getLogger().info("Finished loading listeners");
 	}
 	
 }

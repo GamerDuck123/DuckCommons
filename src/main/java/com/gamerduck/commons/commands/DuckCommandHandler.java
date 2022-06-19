@@ -15,7 +15,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class DuckCommandHandler {
 	
 	public DuckCommandHandler(JavaPlugin main, String pluginname, List<Class<?>> classes) {
-		main.getLogger().info("Loading commands..");
 		for (Class<?> clazz : classes) {
 	    	if (AbstractDuckCommand.class.isAssignableFrom(clazz)) {
 	    		Annotation[] annons = clazz.getAnnotations();
@@ -33,7 +32,6 @@ public class DuckCommandHandler {
 	    		}
 	    	}
 		}
-		main.getLogger().info("Finished loading commands");
 	}
 	
 }
