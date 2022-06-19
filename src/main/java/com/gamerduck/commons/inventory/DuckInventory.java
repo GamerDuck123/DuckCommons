@@ -66,7 +66,7 @@ public class DuckInventory {
 					if (e.getCurrentItem().getItemMeta().getPersistentDataContainer().has(key, PersistentDataType.STRING)) {
 						buttons.get(
 								UUID.fromString(e.getCurrentItem().getItemMeta().getPersistentDataContainer().get(key, PersistentDataType.STRING)))
-								.onClick().accept(e.getCurrentItem());
+								.onClick.accept(e.getCurrentItem());
 					}
 				}
 			}
@@ -80,6 +80,11 @@ public class DuckInventory {
 		plugin.getServer().getPluginManager().registerEvents(listen, plugin);
 	}
 }
-record DuckButton(ItemStack item, Consumer<ItemStack> onClick) {
-	
+class DuckButton {
+	public Consumer<ItemStack> onClick;
+	public ItemStack item;
+	DuckButton(ItemStack item, Consumer<ItemStack> onClick) {
+		this.item = item;
+		this.onClick = onClick;
+	}
 }
