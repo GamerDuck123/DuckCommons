@@ -3,7 +3,7 @@
 <a href=https://github.com/GamerDuck123/DuckCommons><img src=https://img.shields.io/badge/Minecraft%20Version-1.13--1.19-informational></a>
 <a href=https://shields.io/><img src=https://img.shields.io/badge/Shields.IO-Is%20Awesome-success></a>
 <a href=https://github.com/GamerDuck123/DuckCommons/commits/main><img src=https://img.shields.io/github/commit-activity/m/GamerDuck123/DuckCommons></a>
-<a href=https://github.com/GamerDuck123/DuckCommons/commits/main><img src=https://img.shields.io/github/last-commit/GamerDuck123/DuckCommons</a>
+<a href=https://github.com/GamerDuck123/DuckCommons/commits/main><img src=https://img.shields.io/github/last-commit/GamerDuck123/DuckCommons></a>
 <a href=https://github.com/GamerDuck123/DuckCommons><img src=https://img.shields.io/tokei/lines/github/GamerDuck123/DuckCommons></a>
 <a href=https://github.com/GamerDuck123/DuckCommons><img src=https://img.shields.io/github/languages/code-size/GamerDuck123/DuckCommons></a>
 </div>
