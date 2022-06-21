@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class Database {
-	private Connection connection;
+	public Connection connection;
 
 	public Database(String name, String folder) throws Exception {
 		File folderFile = new File(folder);
@@ -38,7 +38,7 @@ public class Database {
 		}
 	}
 	
-	public void prepareStatement(String statement, String... values) {
+	public void prepareStatement(String statement, Object... values) {
 		try (PreparedStatement insert = connection.prepareStatement(statement)) {
 			for (int place = 1; place <= values.length; place++) {
 				insert.setObject(place, values[place - 1]);
