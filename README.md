@@ -8,6 +8,12 @@
 <a href=https://github.com/GamerDuck123/DuckCommons><img src=https://img.shields.io/github/languages/code-size/GamerDuck123/DuckCommons></a>
 </div>
 
+<div align="center">
+<a href=https://github.com/GamerDuck123/DuckCommons/fork><img src=https://img.shields.io/github/forks/GamerDuck123/DuckCommons?style=social></a>
+<a href=https://github.com/GamerDuck123/DuckCommons><img src=https://img.shields.io/github/stars/GamerDuck123/DuckCommons?style=social></a>
+<a href=https://github.com/GamerDuck123/DuckCommons><img src=https://img.shields.io/github/watchers/GamerDuck123/DuckCommons?style=social></a>
+</div>
+
 # DuckCommons
 
 ### Powerful
