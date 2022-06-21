@@ -37,6 +37,17 @@ public class Database {
 			statement.executeUpdate();
 		}
 	}
+	
+	public void prepareStatement(String statement, String... values) {
+		try (PreparedStatement insert = connection.prepareStatement(statement)) {
+			for (int place = 1; place <= values.length; place++) {
+				insert.setObject(place, values[place - 1]);
+			}
+			insert.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public Connection connection() {return connection;}
 
