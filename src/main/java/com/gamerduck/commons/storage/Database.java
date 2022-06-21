@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Properties;
 
-public class Database {
+public abstract class Database {
 	public Connection connection;
 
 	public Database(String name, String folder) throws Exception {
