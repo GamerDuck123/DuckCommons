@@ -9,11 +9,12 @@ import java.net.URL;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+@Deprecated(forRemoval = true)
 public class FileResClassLoader extends ClassLoader {
 	private final transient File dataFolder;
-	public FileResClassLoader(final ClassLoader classLoader, final JavaPlugin ess) {
+	public FileResClassLoader(final ClassLoader classLoader, final JavaPlugin plugin) {
 		super(classLoader);
-		this.dataFolder = ess.getDataFolder();
+		this.dataFolder = plugin.getDataFolder();
 	}
 
 	@Override

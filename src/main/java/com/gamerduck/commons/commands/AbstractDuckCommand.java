@@ -48,7 +48,6 @@ private final class ReflectCommand extends Command {
     protected ReflectCommand(String command) { super(command); }
     public void setExecutor(AbstractDuckCommand exe) { this.exe = exe; }
     @Override public boolean execute(CommandSender sender, String commandLabel, String[] args) {
-		if (sender instanceof ConsoleCommandSender) {sender.sendMessage("This is a player only command"); return true;} 
         if (exe != null) { return exe.onCommand(sender, this, commandLabel, args); }
         return false;
     }

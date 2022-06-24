@@ -15,10 +15,10 @@ import java.util.stream.Collectors;
 import org.bukkit.plugin.Plugin;
 
 public class Files {
-	public static void updatePropertyFiles(Plugin plugin, String fileName) throws IOException {
-		File tempFile = new File(plugin.getDataFolder(), fileName);
+	public static void updatePropertyFiles(Plugin plugin, String originalFile, String toUpdate) throws IOException {
+		File tempFile = new File(plugin.getDataFolder(), toUpdate);
 		File tempCopy = new File(plugin.getDataFolder(), "temp.properties");
-		List<String> tempList = com.google.common.io.Files.readLines(getFileFromResourceAsStream(plugin, fileName, tempCopy), StandardCharsets.UTF_8);
+		List<String> tempList = com.google.common.io.Files.readLines(getFileFromResourceAsStream(plugin, originalFile, tempCopy), StandardCharsets.UTF_8);
 		HashMap<String, String> masterlist = new HashMap<String, String>();
 		tempList.stream().forEachOrdered(s -> {masterlist.put(s.split("=")[0], s);});
 		tempCopy.delete();
@@ -44,10 +44,36 @@ public class Files {
         out.flush();
         out.close();
 	}
+	
+	public static void updatePropertyFiles(Plugin plugin, File originalFile, File toUpdate) throws IOException {
+			updatePropertyFiles(plugin, originalFile.getPath(), toUpdate.getPath());
+	}
+	
+	public static void updateYAMLFiles(Plugin plugin, String originalFile, String toUpdate) throws IOException {
+		/*
+		 * TODO
+		 */
+	}
+	
+	public static void updateYAMLFiles(Plugin plugin, File originalFile, File toUpdate) throws IOException {
+		/*
+		 * TODO
+		 */
+	}
+	
+	public static void updateJSONFiles(Plugin plugin, String originalFile, String toUpdate) throws IOException {
+		/*
+		 * TODO
+		 */
+	}
+	
+	public static void updateJSONFiles(Plugin plugin, File originalFile, File toUpdate) throws IOException {
+		/*
+		 * TODO
+		 */
+	}
 
-    private static File getFileFromResourceAsStream(Plugin plugin, String fileName, File file) throws IOException {
-
-        // The class loader that loaded the class
+    public static File getFileFromResourceAsStream(Plugin plugin, String fileName, File file) throws IOException {
         ClassLoader classLoader = plugin.getClass().getClassLoader();
         InputStream inputStream = classLoader.getResourceAsStream(fileName);
 
