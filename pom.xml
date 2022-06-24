@@ -8,8 +8,9 @@
 				- An inventory builder
 				- Quick database access</description>
   <properties>
-    <maven.compiler.source>16</maven.compiler.source>
-    <maven.compiler.target>16</maven.compiler.target>
+    <java.version>17</java.version>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
 	<revision>0.0.1-BETA</revision>
   </properties>
 
