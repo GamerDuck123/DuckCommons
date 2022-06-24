@@ -1,4 +1,4 @@
-package com.gamerduck.commons.general;
+package com.gamerduck.commons.files;
 
 import java.io.BufferedWriter;
 import java.io.File;
