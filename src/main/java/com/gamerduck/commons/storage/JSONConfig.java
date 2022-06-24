@@ -17,7 +17,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import lombok.Getter;
-
+/**
+ * This class provides an object for JSON files
+ * 
+ * @author GamerDuck123
+ *
+ */
 public class JSONConfig {
 	@Getter private File file;
 	private JSONObject json;

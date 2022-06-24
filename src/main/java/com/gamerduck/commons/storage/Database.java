@@ -6,7 +6,12 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Properties;
-
+/**
+ * This class provides an object for databases
+ * 
+ * @author GamerDuck123
+ *
+ */
 public class Database {
 	public Connection connection;
 
@@ -35,17 +40,6 @@ public class Database {
 	public void createTable(String sqlURL) throws SQLException {
 		try (PreparedStatement statement = connection.prepareStatement(sqlURL)) {
 			statement.executeUpdate();
-		}
-	}
-	
-	public void prepareStatement(String statement, Object... values) {
-		try (PreparedStatement insert = connection.prepareStatement(statement)) {
-			for (int place = 1; place <= values.length; place++) {
-				insert.setObject(place, values[place - 1]);
-			}
-			insert.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 	}
 

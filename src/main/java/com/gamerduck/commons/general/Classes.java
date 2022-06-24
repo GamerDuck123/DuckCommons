@@ -14,7 +14,6 @@ import com.google.common.reflect.ClassPath;
  *
  */
 public class Classes {
-
 	/**
 	 * Find all classes in a package
 	 *
@@ -68,5 +67,49 @@ public class Classes {
 	 */
     public static List<Class<?>> getClassesThatImplement(String packageName, ClassLoader loader, Class<?> clazz) {
     	return getClassesInPackage(packageName, loader).stream().filter(c -> c.isAssignableFrom(clazz)).collect(Collectors.toList());
+    } 	
+    
+    /**
+	 * Find all classes in a package that are interfaces
+	 *
+	 * @param packageName The package path
+	 * @param classLoader The class loader
+	 * @return List of all of the classes in the package that are interfaces
+	 */
+    public static List<Class<?>> getClassesThatAreInterfaces(String packageName, ClassLoader loader) {
+    	return getClassesInPackage(packageName, loader).stream().filter(c -> c.isInterface()).collect(Collectors.toList());
     } 
+    
+    /**
+	 * Find all classes in a package that are enums
+	 *
+	 * @param packageName The package path
+	 * @param classLoader The class loader
+	 * @return List of all of the classes in the package that are enums
+	 */
+    public static List<Class<?>> getClassesThatAreEnums(String packageName, ClassLoader loader) {
+    	return getClassesInPackage(packageName, loader).stream().filter(c -> c.isEnum()).collect(Collectors.toList());
+    }     
+    
+    /**
+	 * Find all classes in a package that are annotations
+	 *
+	 * @param packageName The package path
+	 * @param classLoader The class loader
+	 * @return List of all of the classes in the package that are annotations
+	 */
+    public static List<Class<?>> getClassesThatAreAnnotations(String packageName, ClassLoader loader) {
+    	return getClassesInPackage(packageName, loader).stream().filter(c -> c.isAnnotation()).collect(Collectors.toList());
+    } 
+    /**
+	 * Find all classes in a package that are records
+	 *
+	 * @param packageName The package path
+	 * @param classLoader The class loader
+	 * @return List of all of the classes in the package that are records
+	 */
+    public static List<Class<?>> getClassesThatAreRecords(String packageName, ClassLoader loader) {
+    	return getClassesInPackage(packageName, loader).stream().filter(c -> c.isRecord()).collect(Collectors.toList());
+    } 
+
 }

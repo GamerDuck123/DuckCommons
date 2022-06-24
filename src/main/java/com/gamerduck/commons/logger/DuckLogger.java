@@ -5,7 +5,12 @@ import java.util.logging.Level;
 import org.bukkit.Bukkit;
 
 import com.gamerduck.commons.general.Strings;
-
+/**
+ * This class provides a quick and easy logger using Bukkit's logger
+ * 
+ * @author GamerDuck123
+ *
+ */
 public class DuckLogger {
 	public static void info(String str) {
 		Bukkit.getLogger().info(str);

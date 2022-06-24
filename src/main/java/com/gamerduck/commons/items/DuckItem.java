@@ -26,11 +26,18 @@ public class DuckItem extends ItemStack {
 	private ItemMeta meta;
 	private List<String> lore;
 
+	private DuckItem(ItemStack item) {
+		super(item);
+		meta = getItemMeta();
+		lore = new ArrayList<String>();
+	}
+	
 	protected DuckItem(Material mat, int amount) {
 		super(mat, amount);
 		meta = getItemMeta();
 		lore = new ArrayList<String>();
 	}
+	
 	public DuckItem() {
 		super(Material.STONE, 1);
 		meta = getItemMeta();
@@ -341,7 +348,7 @@ public class DuckItem extends ItemStack {
 	 * @return The new DuckItem class
 	 */
 	public static DuckItem fromItemStack(ItemStack item) {
-		return (DuckItem) item;
+		return new DuckItem(item);
 	}
 	
 	/**

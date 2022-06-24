@@ -72,7 +72,14 @@ public class DuckInventory {
 		fillColumn(9, item);
 		return this;
 	}
+
 	
+	public DuckInventory fill(ItemStack item) {
+		for (int i = 0; i < inventory.getSize(); i++) {
+			setItem(i, item);
+		}
+		return this;
+	}
 	
 	public DuckInventory addItem(ItemStack item) {
 		inventory.addItem(item);
@@ -84,7 +91,7 @@ public class DuckInventory {
 		return this;
 	}
 	
-	public DuckInventory addButton(ItemStack item, Consumer<ItemStack> onClick) {
+	public DuckInventory addButton(ItemStack item, Consumer<InventoryClickEvent> onClick) {
 		UUID randomUUID = UUID.randomUUID();
 		ItemMeta meta = item.getItemMeta();
 		meta.getPersistentDataContainer().set(key, PersistentDataType.STRING, randomUUID.toString());
@@ -94,7 +101,7 @@ public class DuckInventory {
 		return this;
 	}
 	
-	public DuckInventory setButton(int slot, ItemStack item, Consumer<ItemStack> onClick) {
+	public DuckInventory setButton(int slot, ItemStack item, Consumer<InventoryClickEvent> onClick) {
 		UUID randomUUID = UUID.randomUUID();
 		ItemMeta meta = item.getItemMeta();
 		meta.getPersistentDataContainer().set(key, PersistentDataType.STRING, randomUUID.toString());
@@ -104,7 +111,7 @@ public class DuckInventory {
 		return this;
 	}
 	
-	public DuckInventory fillRowWithButtons(int row, ItemStack item, Consumer<ItemStack> onClick) {
+	public DuckInventory fillRowWithButtons(int row, ItemStack item, Consumer<InventoryClickEvent> onClick) {
 		if (inventory.getSize() < ((row * 9) - 1)) return this;
 		else {
 			int lastInRow = ((row * 9) - 1);
@@ -116,7 +123,7 @@ public class DuckInventory {
 		return this;
 	}
 	
-	public DuckInventory fillColumnWithButtons(int column, ItemStack item, Consumer<ItemStack> onClick) {
+	public DuckInventory fillColumnWithButtons(int column, ItemStack item, Consumer<InventoryClickEvent> onClick) {
 		int bottomRow = inventory.getSize() / 9;
 		for (int i = 1; i <= bottomRow ; i++) {
 			setButton(column - 1, item, onClick);
@@ -125,11 +132,17 @@ public class DuckInventory {
 		return this;
 	}
 	
-	public DuckInventory fillBorderWithButtons(ItemStack item, Consumer<ItemStack> onClick) {
+	public DuckInventory fillBorderWithButtons(ItemStack item, Consumer<InventoryClickEvent> onClick) {
 		fillRowWithButtons(1, item, onClick);
 		fillColumnWithButtons(1, item, onClick);
 		fillRowWithButtons(inventory.getSize() / 9, item, onClick);
 		fillColumnWithButtons(9, item, onClick);
+		return this;
+	}
+	public DuckInventory fillWithButtons(ItemStack item, Consumer<InventoryClickEvent> onClick) {
+		for (int i = 0; i < inventory.getSize(); i++) {
+			setButton(i, item, onClick);
+		}
 		return this;
 	}
 	
@@ -152,7 +165,7 @@ public class DuckInventory {
 					if (e.getCurrentItem().getItemMeta().getPersistentDataContainer().has(key, PersistentDataType.STRING)) {
 						buttons.get(
 								UUID.fromString(e.getCurrentItem().getItemMeta().getPersistentDataContainer().get(key, PersistentDataType.STRING)))
-								.onClick.accept(e.getCurrentItem());
+								.onClick.accept(e);
 					}
 				}
 			}
@@ -168,9 +181,9 @@ public class DuckInventory {
 	}
 }
 class DuckButton {
-	public Consumer<ItemStack> onClick;
+	public Consumer<InventoryClickEvent> onClick;
 	public ItemStack item;
-	DuckButton(ItemStack item, Consumer<ItemStack> onClick) {
+	DuckButton(ItemStack item, Consumer<InventoryClickEvent> onClick) {
 		this.item = item;
 		this.onClick = onClick;
 	}
