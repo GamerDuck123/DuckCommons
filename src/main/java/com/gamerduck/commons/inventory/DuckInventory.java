@@ -14,6 +14,8 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.player.PlayerKickEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -172,6 +174,19 @@ public class DuckInventory {
 			
 			@EventHandler
 			public void onClose(InventoryCloseEvent e) {
+				if (!opened.contains(e.getPlayer().getUniqueId())) return;
+				opened.remove(e.getPlayer().getUniqueId());
+				if (opened.size() == 0) unregister();
+			}
+			
+			@EventHandler
+			public void onClose(PlayerQuitEvent e) {
+				if (!opened.contains(e.getPlayer().getUniqueId())) return;
+				opened.remove(e.getPlayer().getUniqueId());
+				if (opened.size() == 0) unregister();
+			}
+			@EventHandler
+			public void onClose(PlayerKickEvent e) {
 				if (!opened.contains(e.getPlayer().getUniqueId())) return;
 				opened.remove(e.getPlayer().getUniqueId());
 				if (opened.size() == 0) unregister();
