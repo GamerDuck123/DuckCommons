@@ -24,7 +24,7 @@ import com.mojang.authlib.properties.Property;
  * @author GamerDuck123
  *
  */
-public class DuckSkull extends DuckItem {
+public class DuckSkull extends ItemStack {
 	public DuckSkull() {
 		super(Material.PLAYER_HEAD, 1);
 	}

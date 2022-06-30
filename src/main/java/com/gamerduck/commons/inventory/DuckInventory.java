@@ -150,13 +150,13 @@ public class DuckInventory {
 	
 	public DuckInventory open(Player player) {
 		player.openInventory(inventory);
-		opened.add(player.getUniqueId());
-		startListener();
+		startListener(player);
 		return this;
 	}
 	
-	private void startListener() {
+	private void startListener(Player player) {
 		if (opened.size() != 0) return;
+		opened.add(player.getUniqueId());
 		listen = new Listener() {
 			public void unregister() {HandlerList.unregisterAll(this);}
 			@EventHandler
