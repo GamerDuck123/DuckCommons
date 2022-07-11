@@ -1,7 +1,7 @@
 package com.gamerduck.commons.inventory;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Consumer;
 
@@ -27,14 +27,14 @@ import lombok.Getter;
 public class DuckInventory {
 	final NamespacedKey key;
 	final HashMap<UUID, DuckButton> buttons;
-	private final ArrayList<UUID> opened;
+	private final HashMap<UUID, Player> opened;
 	final Plugin plugin;
 	@Getter Inventory inventory;
 	boolean cancelled;
 	private Listener listen;
 	public DuckInventory(Plugin plugin, int size, String name) {
 		this.buttons = new HashMap<UUID, DuckButton>();
-		this.opened = new ArrayList<UUID>();
+		this.opened = new HashMap<UUID, Player>();
 		this.plugin = plugin;
 		this.key = new NamespacedKey(plugin, "button");
 		this.inventory = Bukkit.createInventory(null, size, name);
@@ -43,6 +43,23 @@ public class DuckInventory {
 
 	public DuckInventory shouldClickBeCancelled(boolean bool) {
 		cancelled = bool;
+		return this;
+	}
+	
+	public void updateAll() throws PlayerDoesNotHaveInventoryOpenException {
+		for (Player p : opened.values()) update(p);
+	}
+	
+	public void update(Player p) throws PlayerDoesNotHaveInventoryOpenException {
+		Optional<Player> pl = opened.values().stream().filter(temp -> temp.getUniqueId() == p.getUniqueId()).findFirst();
+		if (pl.isEmpty() || pl == null) throw new PlayerDoesNotHaveInventoryOpenException();
+		else pl.get().updateInventory();
+	}
+	
+	public DuckInventory removeItem(int slot) {
+		ItemStack item = inventory.getItem(slot);
+		if (item.getItemMeta().getPersistentDataContainer().has(key, PersistentDataType.STRING)) buttons.remove(UUID.fromString(item.getItemMeta().getPersistentDataContainer().get(key, PersistentDataType.STRING)));
+		inventory.remove(item);
 		return this;
 	}
 	
@@ -156,13 +173,13 @@ public class DuckInventory {
 	
 	private void startListener(Player player) {
 		if (opened.size() != 0) return;
-		opened.add(player.getUniqueId());
+		opened.put(player.getUniqueId(), player);
 		listen = new Listener() {
 			public void unregister() {HandlerList.unregisterAll(this);}
 			@EventHandler
 			public void onClick(InventoryClickEvent e) {
 				if (e.getCurrentItem() == null || e.getCurrentItem().getType() == Material.AIR) return;
-				if (opened.contains(e.getWhoClicked().getUniqueId())) {
+				if (opened.containsKey(e.getWhoClicked().getUniqueId())) {
 					e.setCancelled(cancelled);
 					if (e.getCurrentItem().getItemMeta().getPersistentDataContainer().has(key, PersistentDataType.STRING)) {
 						buttons.get(
@@ -174,20 +191,20 @@ public class DuckInventory {
 			
 			@EventHandler
 			public void onClose(InventoryCloseEvent e) {
-				if (!opened.contains(e.getPlayer().getUniqueId())) return;
+				if (!opened.containsKey(e.getPlayer().getUniqueId())) return;
 				opened.remove(e.getPlayer().getUniqueId());
 				if (opened.size() == 0) unregister();
 			}
 			
 			@EventHandler
 			public void onClose(PlayerQuitEvent e) {
-				if (!opened.contains(e.getPlayer().getUniqueId())) return;
+				if (!opened.containsKey(e.getPlayer().getUniqueId())) return;
 				opened.remove(e.getPlayer().getUniqueId());
 				if (opened.size() == 0) unregister();
 			}
 			@EventHandler
 			public void onClose(PlayerKickEvent e) {
-				if (!opened.contains(e.getPlayer().getUniqueId())) return;
+				if (!opened.containsKey(e.getPlayer().getUniqueId())) return;
 				opened.remove(e.getPlayer().getUniqueId());
 				if (opened.size() == 0) unregister();
 			}
@@ -196,3 +213,15 @@ public class DuckInventory {
 	}
 }
 record DuckButton(ItemStack item, Consumer<InventoryClickEvent> onClick) {}
+class PlayerDoesNotHaveInventoryOpenException extends Exception {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6496962743434586781L;
+	
+	public PlayerDoesNotHaveInventoryOpenException() {
+		
+	}
+	
+}
