@@ -3,16 +3,22 @@ package com.gamerduck.commons.items;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Consumer;
 
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+
+import static com.gamerduck.commons.items.DuckItemListener.*;
 
 /**
  * DuckItem is meant to be used in place of ItemStack
@@ -341,6 +347,22 @@ public class DuckItem extends ItemStack {
 		return this;
 	}
 
+
+	/**
+	 * Fires whenever the PlayerInteractEvent fires for this item
+	 *
+	 * @param identifier The UNIQUE Identifier for the event to listen for.
+	 * @param eventConsumer A Consumer that contains the information you want to use with the PlayerInteractEvent
+	 * @return The new DuckItem class
+	 */
+	public DuckItem onClick(String identifier, Consumer<PlayerInteractEvent> eventConsumer) {
+		if (plugin == null) return this;
+		if (key == null) return this;
+		withPersistentDataContainer(key, identifier);
+		itemList.put(identifier, eventConsumer);
+		return this;
+	}
+
 	/**
 	 * Turn a normal ItemStack into a DuckItem
 	 *
@@ -350,7 +372,7 @@ public class DuckItem extends ItemStack {
 	public static DuckItem fromItemStack(ItemStack item) {
 		return new DuckItem(item);
 	}
-	
+
 	/**
 	 * Returns the item
 	 * 
