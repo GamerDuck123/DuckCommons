@@ -30,7 +30,6 @@ repositories {
 
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.19-R0.1-SNAPSHOT")
-    compileOnly("org.projectlombok:lombok:1.18.22")
     compileOnly("com.mojang:authlib:1.5.21")
     compileOnly("com.googlecode.json-simple:json-simple:1.1.1")
 }

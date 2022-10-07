@@ -2,6 +2,7 @@ package com.gamerduck.commons.items;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -29,6 +30,8 @@ public class DuckItemListener {
         plugin.getServer().getPluginManager().registerEvents(new Listener() {
             @EventHandler
             public void onClick(PlayerInteractEvent e) {
+                if (e.getItem().getType() == Material.AIR || e.getItem() == null || e.getItem().getType() == null
+                    || e.getItem().getItemMeta() == null || !e.getItem().hasItemMeta()) return;
                 if (e.getItem().getItemMeta().getPersistentDataContainer().has(key, STRING)) {
                     if (itemList.containsKey(e.getItem().getItemMeta().getPersistentDataContainer().get(key, STRING))) {
                         itemList.get(e.getItem().getItemMeta().getPersistentDataContainer().get(key, STRING)).accept(e);

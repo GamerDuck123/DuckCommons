@@ -13,9 +13,7 @@ public final class CenteredMessage {
     private final static int CENTER_PX = 154;
 
     public static String generate(String message) {
-        if (message == null || message.equals("")) {
-            return "";
-        }
+        if (message == null || message.equals("")) return "";
         message = ChatColor.translateAlternateColorCodes('&', message);
 
         int messagePxSize = 0;

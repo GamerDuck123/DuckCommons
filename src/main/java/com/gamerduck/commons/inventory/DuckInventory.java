@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Consumer;
 
+import com.google.common.collect.Maps;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -29,16 +30,20 @@ public class DuckInventory {
 	final HashMap<UUID, DuckButton> buttons;
 	private final HashMap<UUID, Player> opened;
 	final Plugin plugin;
-	@Getter Inventory inventory;
+	Inventory inventory;
 	boolean cancelled;
 	private Listener listen;
 	public DuckInventory(Plugin plugin, int size, String name) {
-		this.buttons = new HashMap<UUID, DuckButton>();
-		this.opened = new HashMap<UUID, Player>();
+		this.buttons = Maps.newHashMap();
+		this.opened = Maps.newHashMap();
 		this.plugin = plugin;
 		this.key = new NamespacedKey(plugin, "button");
 		this.inventory = Bukkit.createInventory(null, size, name);
 		this.cancelled = true;
+	}
+
+	public Inventory getInventory() {
+		return inventory;
 	}
 
 	public DuckInventory shouldClickBeCancelled(boolean bool) {
@@ -213,13 +218,8 @@ public class DuckInventory {
 	}
 }
 record DuckButton(ItemStack item, Consumer<InventoryClickEvent> onClick) {}
-class PlayerDoesNotHaveInventoryOpenException extends Exception {
+class PlayerDoesNotHaveInventoryOpenException extends RuntimeException {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -6496962743434586781L;
-	
 	public PlayerDoesNotHaveInventoryOpenException() {
 		
 	}
