@@ -23,8 +23,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
 
-import lombok.Getter;
-
 public class DuckInventory {
 	final NamespacedKey key;
 	final HashMap<UUID, DuckButton> buttons;
@@ -218,10 +216,3 @@ public class DuckInventory {
 	}
 }
 record DuckButton(ItemStack item, Consumer<InventoryClickEvent> onClick) {}
-class PlayerDoesNotHaveInventoryOpenException extends RuntimeException {
-
-	public PlayerDoesNotHaveInventoryOpenException() {
-		
-	}
-	
-}
