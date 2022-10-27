@@ -1,15 +1,10 @@
 package com.gamerduck.commons.commands;
 
+import org.bukkit.Bukkit;
+import org.bukkit.command.*;
+
 import java.lang.reflect.Field;
 import java.util.List;
-
-import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandMap;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.command.TabExecutor;
 /**
  * AbstractDuckCommand is meant to be used in place of CommandExecutor and TabExecutor
  * This class acts a way for DuckCommandHandler to figure out what to register

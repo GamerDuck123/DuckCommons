@@ -1,12 +1,12 @@
 package com.gamerduck.commons.general;
 
+import net.md_5.bungee.api.ChatColor;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
-import net.md_5.bungee.api.ChatColor;
 
 public class Strings {
 	

@@ -4,8 +4,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 
-import lombok.Getter;
-
 /**
  * This class replaces Event, and is aimed towards player based events
  * 
@@ -13,10 +11,14 @@ import lombok.Getter;
  *
  */
 public abstract class DuckPlayerEvent extends DuckEvent implements Cancellable {
-	@Getter Player player;
+	Player player;
 	public DuckPlayerEvent(Player player) {
 		this.player = player;
 		HANDLERS = new HandlerList();
+	}
+
+	public Player getPlayer() {
+		return player;
 	}
 
 	private static HandlerList HANDLERS;

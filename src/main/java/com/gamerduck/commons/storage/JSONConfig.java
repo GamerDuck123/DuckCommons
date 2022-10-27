@@ -1,22 +1,14 @@
 package com.gamerduck.commons.storage;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
-import java.util.TreeMap;
-
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import lombok.Getter;
+import java.io.*;
+import java.util.HashMap;
+import java.util.TreeMap;
 /**
  * This class provides an object for JSON files
  * 
@@ -24,7 +16,7 @@ import lombok.Getter;
  *
  */
 public class JSONConfig {
-	@Getter private File file;
+	private File file;
 	private JSONObject json;
 	private JSONParser parser = new JSONParser();
 	private HashMap<String, Object> defaults = new HashMap<String, Object>();
@@ -33,6 +25,10 @@ public class JSONConfig {
 	public JSONConfig(File file) {
 		this.file = file;
 		reload();
+	}
+
+	public File getFile() {
+		return file;
 	}
 
 	public void add(String path, Object obj) {

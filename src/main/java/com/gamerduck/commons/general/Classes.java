@@ -1,13 +1,12 @@
 package com.gamerduck.commons.general;
 
-import java.io.IOException;
-import java.lang.annotation.Annotation;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import com.google.common.collect.Lists;
 import com.google.common.reflect.ClassPath;
+
+import java.io.IOException;
+import java.lang.annotation.Annotation;
+import java.util.List;
+import java.util.stream.Collectors;
 /**
  * This class provides a few methods for reflection
  * 

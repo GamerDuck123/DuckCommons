@@ -1,10 +1,10 @@
 package com.gamerduck.commons.listeners;
 
+import org.bukkit.plugin.java.JavaPlugin;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-
-import org.bukkit.plugin.java.JavaPlugin;
 /**
  * This class will allow you to register all of the AbstractDuckListener classes
  * 

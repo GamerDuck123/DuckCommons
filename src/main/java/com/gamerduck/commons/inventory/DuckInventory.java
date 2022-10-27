@@ -1,10 +1,5 @@
 package com.gamerduck.commons.inventory;
 
-import java.util.HashMap;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.function.Consumer;
-
 import com.google.common.collect.Maps;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -22,6 +17,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
+
+import java.util.HashMap;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.function.Consumer;
 
 public class DuckInventory {
 	final NamespacedKey key;

@@ -1,10 +1,9 @@
 package com.gamerduck.commons.logger;
 
-import java.util.logging.Level;
-
+import com.gamerduck.commons.general.Strings;
 import org.bukkit.Bukkit;
 
-import com.gamerduck.commons.general.Strings;
+import java.util.logging.Level;
 /**
  * This class provides a quick and easy logger using Bukkit's logger
  * 

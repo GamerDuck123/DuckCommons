@@ -1,18 +1,12 @@
 package com.gamerduck.commons.files;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import org.bukkit.plugin.Plugin;
+
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import org.bukkit.plugin.Plugin;
 
 public class Files {
 	public static void updatePropertyFiles(Plugin plugin, String originalFile, String toUpdate) throws IOException {
