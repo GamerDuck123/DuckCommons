@@ -35,4 +35,21 @@ public class PlayerHandChangeEvent extends DuckPlayerEvent {
     public ItemStack getOldItem() {
         return oldItem;
     }
+
+    private static HandlerList HANDLERS = new HandlerList();
+    public static HandlerList getHandlerList() {return HANDLERS;}
+    public HandlerList getHandlers() {return HANDLERS;}
+
+
+    private boolean cancelled = false;
+
+    @Override
+    public boolean isCancelled() {
+        return cancelled;
+    }
+
+    @Override
+    public void setCancelled(boolean cancel) {
+        cancelled = cancel;
+    }
 }

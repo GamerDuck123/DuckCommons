@@ -14,27 +14,10 @@ public abstract class DuckPlayerEvent extends DuckEvent implements Cancellable {
 	Player player;
 	public DuckPlayerEvent(Player player) {
 		this.player = player;
-		HANDLERS = new HandlerList();
 	}
 
 	public Player getPlayer() {
 		return player;
 	}
 
-	private static HandlerList HANDLERS;
-    public static HandlerList getHandlerList() {return HANDLERS;}
-    public HandlerList getHandlers() {return HANDLERS;}
-
-
-	private boolean cancelled = false;
-
-	@Override
-	public boolean isCancelled() {
-		return cancelled;
-	}
-
-	@Override
-	public void setCancelled(boolean cancel) {
-		cancelled = cancel;
-	}
 }
