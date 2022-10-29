@@ -1,5 +1,9 @@
 package com.gamerduck.commons.items;
 
+import com.gamerduck.commons.general.ColorTranslator;
+import com.google.common.collect.Lists;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
@@ -17,6 +21,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import static com.gamerduck.commons.items.DuckItemListener.*;
+import static org.bukkit.persistence.PersistentDataType.*;
 
 /**
  * DuckItem is meant to be used in place of ItemStack
@@ -27,25 +32,18 @@ import static com.gamerduck.commons.items.DuckItemListener.*;
  */
 public class DuckItem extends ItemStack {
 
-	private ItemMeta meta;
-	private List<String> lore;
+	private final MiniMessage mm = MiniMessage.miniMessage();
 
 	private DuckItem(ItemStack item) {
 		super(item);
-		meta = getItemMeta();
-		lore = new ArrayList<String>();
 	}
 	
 	protected DuckItem(Material mat, int amount) {
 		super(mat, amount);
-		meta = getItemMeta();
-		lore = new ArrayList<String>();
 	}
 	
 	public DuckItem() {
 		super(Material.STONE, 1);
-		meta = getItemMeta();
-		lore = new ArrayList<String>();
 	}
 	/**
 	 * Set the display name of the item
@@ -53,10 +51,18 @@ public class DuckItem extends ItemStack {
 	 * @param name the new displayname of the itemstack
 	 * @return the same class with the display name changed
 	 */
-	public DuckItem withDisplayName(String name) {
-		meta.setDisplayName(name);
-		setItemMeta(meta);
+	public DuckItem withDisplayName(Component name) {
+		editMeta(meta -> meta.displayName(name));
 		return this;
+	}
+	/**
+	 * Set the display name of the item
+	 *
+	 * @param name the new displayname of the itemstack
+	 * @return the same class with the display name changed
+	 */
+	public DuckItem withDisplayName(String name) {
+		return withDisplayName(mm.deserialize(name));
 	}
 
 	/**
@@ -89,10 +95,8 @@ public class DuckItem extends ItemStack {
 	 * @param lore the new lore
 	 * @return the same class with the lore changed
 	 */
-	public DuckItem withLore(List<String> lore) {
-		this.lore = lore;
-		meta.setLore(this.lore);
-		setItemMeta(meta);
+	public DuckItem withLore(List<Component> lore) {
+		editMeta(meta -> meta.lore(lore));
 		return this;
 	}
 
@@ -100,13 +104,11 @@ public class DuckItem extends ItemStack {
 	 * Add to the current lore of the item
 	 * If there was no previously set lore, it'll start with a new list
 	 * 
-	 * @param string the string to be added to the lore
+	 * @param comp the string to be added to the lore
 	 * @return the same class with the lore changed
 	 */
-	public DuckItem addToLore(String string) {
-		lore.add(string); 
-		meta.setLore(lore);
-		setItemMeta(meta);
+	public DuckItem addToLore(Component comp) {
+		editMeta(meta -> meta.lore().add(comp));
 		return this;
 	}
 
@@ -114,13 +116,11 @@ public class DuckItem extends ItemStack {
 	 * Add to the current lore of the item
 	 * If there was no previously set lore, it'll start with a new list
 	 * 
-	 * @param strings the strings to be added to the lore
+	 * @param comp the strings to be added to the lore
 	 * @return the same class with the lore changed
 	 */
-	public DuckItem addToLore(String... strings) {
-		lore.addAll(Arrays.asList(strings)); 
-		meta.setLore(lore);
-		setItemMeta(meta);
+	public DuckItem addToLore(Component... comp) {
+		editMeta(meta -> meta.lore().addAll(Arrays.asList(comp)));
 		return this;
 	}
 
@@ -128,14 +128,36 @@ public class DuckItem extends ItemStack {
 	 * Add to the current lore of the item
 	 * If there was no previously set lore, it'll start with a new list
 	 * 
-	 * @param strings the string list to be added to the lore
+	 * @param comps the string list to be added to the lore
 	 * @return the same class with the lore changed
 	 */
-	public DuckItem addToLore(List<String> strings) {
-		lore.addAll(strings); 
-		meta.setLore(lore);
-		setItemMeta(meta);
+	public DuckItem addToLore(List<Component> comps) {
+		editMeta(meta -> meta.lore().addAll(comps));
 		return this;
+	}
+
+	/**
+	 * Add to the current lore of the item
+	 * If there was no previously set lore, it'll start with a new list
+	 *
+	 * @param str the string to be added to the lore
+	 * @return the same class with the lore changed
+	 */
+	public DuckItem addToLore(String str) {
+		return addToLore(mm.deserialize(str));
+	}
+
+	/**
+	 * Add to the current lore of the item
+	 * If there was no previously set lore, it'll start with a new list
+	 *
+	 * @param strs the strings to be added to the lore
+	 * @return the same class with the lore changed
+	 */
+	public DuckItem addToLore(String... strs) {
+		List<Component> comps = Lists.newArrayList();
+		Arrays.stream(strs).forEach(s -> comps.add(mm.deserialize(s)));
+		return addToLore(comps);
 	}
 	
 	/**
@@ -145,8 +167,7 @@ public class DuckItem extends ItemStack {
 	 * @return the same class with the custom model data changed
 	 */
 	public DuckItem withCustomModelData(Integer data) {
-		meta.setCustomModelData(data);
-		setItemMeta(meta);
+		editMeta(meta -> meta.setCustomModelData(data));
 		return this;
 	}
 
@@ -158,8 +179,7 @@ public class DuckItem extends ItemStack {
 	 * @return the same class with the persistent data container changed
 	 */
 	public DuckItem withPersistentDataContainer(NamespacedKey key, String object) {
-		meta.getPersistentDataContainer().set(key, PersistentDataType.STRING, object);
-		setItemMeta(meta);
+		editMeta(meta -> meta.getPersistentDataContainer().set(key, STRING, object));
 		return this;
 	}
 
@@ -171,8 +191,7 @@ public class DuckItem extends ItemStack {
 	 * @return the same class with the persistent data container changed
 	 */
 	public DuckItem withPersistentDataContainer(NamespacedKey key, Integer object) {
-		meta.getPersistentDataContainer().set(key, PersistentDataType.INTEGER, object);
-		setItemMeta(meta);
+		editMeta(meta -> meta.getPersistentDataContainer().set(key, INTEGER, object));
 		return this;
 	}
 
@@ -185,8 +204,7 @@ public class DuckItem extends ItemStack {
 	 * @return the same class with the persistent data container changed
 	 */
 	public DuckItem withPersistentDataContainer(NamespacedKey key, int[] object) {
-		meta.getPersistentDataContainer().set(key, PersistentDataType.INTEGER_ARRAY, object);
-		setItemMeta(meta);
+		editMeta(meta -> meta.getPersistentDataContainer().set(key, INTEGER_ARRAY, object));
 		return this;
 	}
 
@@ -199,8 +217,7 @@ public class DuckItem extends ItemStack {
 	 * @return the same class with the persistent data container changed
 	 */
 	public DuckItem withPersistentDataContainer(NamespacedKey key, Double object) {
-		meta.getPersistentDataContainer().set(key, PersistentDataType.DOUBLE, object);
-		setItemMeta(meta);
+		editMeta(meta -> meta.getPersistentDataContainer().set(key, DOUBLE, object));
 		return this;
 	}
 
@@ -213,8 +230,7 @@ public class DuckItem extends ItemStack {
 	 * @return the same class with the persistent data container changed
 	 */
 	public DuckItem withPersistentDataContainer(NamespacedKey key, Float object) {
-		meta.getPersistentDataContainer().set(key, PersistentDataType.FLOAT, object);
-		setItemMeta(meta);
+		editMeta(meta -> meta.getPersistentDataContainer().set(key, FLOAT, object));
 		return this;
 	}
 
@@ -227,8 +243,7 @@ public class DuckItem extends ItemStack {
 	 * @return the same class with the persistent data container changed
 	 */
 	public DuckItem withPersistentDataContainer(NamespacedKey key, Long object) {
-		meta.getPersistentDataContainer().set(key, PersistentDataType.LONG, object);
-		setItemMeta(meta);
+		editMeta(meta -> meta.getPersistentDataContainer().set(key, LONG, object));
 		return this;
 	}
 
@@ -240,8 +255,7 @@ public class DuckItem extends ItemStack {
 	 * @return the same class with the persistent data container changed
 	 */
 	public DuckItem withPersistentDataContainer(NamespacedKey key, long[] object) {
-		meta.getPersistentDataContainer().set(key, PersistentDataType.LONG_ARRAY, object);
-		setItemMeta(meta);
+		editMeta(meta -> meta.getPersistentDataContainer().set(key, LONG_ARRAY, object));
 		return this;
 	}
 
@@ -254,8 +268,7 @@ public class DuckItem extends ItemStack {
 	 * @return the same class with the persistent data container changed
 	 */
 	public DuckItem withPersistentDataContainer(NamespacedKey key, Short object) {
-		meta.getPersistentDataContainer().set(key, PersistentDataType.SHORT, object);
-		setItemMeta(meta);
+		editMeta(meta -> meta.getPersistentDataContainer().set(key, SHORT, object));
 		return this;
 	}
 
@@ -289,9 +302,8 @@ public class DuckItem extends ItemStack {
 	 * @param flag the item flag(s)
 	 * @return the same class with the item flags changed
 	 */
-	public DuckItem withFlags(ItemFlag ...flag) {
-		meta.addItemFlags(flag);
-		setItemMeta(meta);
+	public DuckItem withFlags(ItemFlag... flag) {
+		editMeta(meta -> meta.addItemFlags(flag));
 		return this;
 	}
 
@@ -302,8 +314,7 @@ public class DuckItem extends ItemStack {
 	 * @return the same class with the item flags changed
 	 */
 	public DuckItem withoutFlags(ItemFlag ...flag) {
-		meta.removeItemFlags(flag);
-		setItemMeta(meta);
+		this.editMeta(meta -> meta.removeItemFlags(flag));
 		return this;
 	}
 
@@ -315,8 +326,7 @@ public class DuckItem extends ItemStack {
 	 * @return the same class with the attribute added
 	 */
 	public DuckItem withAttribute(Attribute attr, AttributeModifier attrmodify) {
-		meta.addAttributeModifier(attr, attrmodify);
-		setItemMeta(meta);
+		this.editMeta(meta -> meta.addAttributeModifier(attr, attrmodify));
 		return this;
 	}
 
@@ -328,8 +338,7 @@ public class DuckItem extends ItemStack {
 	 * @return the same class with the attribute removed
 	 */
 	public DuckItem withoutAttribute(Attribute attr, AttributeModifier attrmodify) {
-		meta.removeAttributeModifier(attr, attrmodify);
-		setItemMeta(meta);
+		this.editMeta(meta -> meta.removeAttributeModifier(attr, attrmodify));
 		return this;
 	}
 
@@ -340,8 +349,7 @@ public class DuckItem extends ItemStack {
 	 * @return the same class with the attribute removed
 	 */
 	public DuckItem withoutAttribute(Attribute attr) {
-		meta.removeAttributeModifier(attr);
-		setItemMeta(meta);
+		this.editMeta(meta -> meta.removeAttributeModifier(attr));
 		return this;
 	}
 
@@ -390,8 +398,6 @@ public class DuckItem extends ItemStack {
 	 */
 	@Deprecated
 	public DuckItem get() {
-		meta.setLore(lore);
-		setItemMeta(meta);
 		return this;
 	}
 

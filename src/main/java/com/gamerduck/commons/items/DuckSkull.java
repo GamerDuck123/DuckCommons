@@ -37,10 +37,11 @@ public class DuckSkull extends ItemStack {
 	 * @param id   The Player's UUID.
 	 * @return The head of the Player.
 	 */
-	public ItemStack fromUuid(UUID id) {
-		SkullMeta meta = (SkullMeta) getItemMeta();
-		meta.setOwningPlayer(Bukkit.getOfflinePlayer(id));
-		setItemMeta(meta);
+	public DuckSkull fromUuid(UUID id) {
+		editMeta(SkullMeta.class, meta -> meta.setOwningPlayer(Bukkit.getOfflinePlayer(id)));
+//		SkullMeta meta = (SkullMeta) getItemMeta();
+//		meta.setOwningPlayer(Bukkit.getOfflinePlayer(id));
+//		setItemMeta(meta);
 		return this;
 	}
 
@@ -52,10 +53,11 @@ public class DuckSkull extends ItemStack {
 	 * @deprecated names don't make for good identifiers.
 	 */
 	@Deprecated
-	public ItemStack fromName(String name) {
-		SkullMeta meta = (SkullMeta) getItemMeta();
-		meta.setOwningPlayer(Bukkit.getOfflinePlayer(name));
-		setItemMeta(meta);
+	public DuckSkull fromName(String name) {
+		editMeta(SkullMeta.class, meta -> meta.setOwningPlayer(Bukkit.getOfflinePlayer(name)));
+//		SkullMeta meta = (SkullMeta) getItemMeta();
+//		meta.setOwningPlayer(Bukkit.getOfflinePlayer(name));
+//		setItemMeta(meta);
 		return this;
 	}
 
@@ -66,11 +68,12 @@ public class DuckSkull extends ItemStack {
 	 * @param base64 The base64 string containing the texture.
 	 * @return The head with a custom texture.
 	 */
-	public ItemStack fromBase64(String base64) {
-		if (!(getItemMeta() instanceof SkullMeta)) return this;
-		SkullMeta meta = (SkullMeta) getItemMeta();
-		mutateItemMeta(meta, base64);
-		setItemMeta(meta);
+	public DuckSkull fromBase64(String base64) {
+		editMeta(SkullMeta.class, meta -> mutateItemMeta(meta, base64));
+//		if (!(getItemMeta() instanceof SkullMeta)) return this;
+//		SkullMeta meta = (SkullMeta) getItemMeta();
+//		mutateItemMeta(meta, base64);
+//		setItemMeta(meta);
 		return this;
 	}
 

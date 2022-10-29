@@ -1,6 +1,7 @@
 package com.gamerduck.commons.inventory;
 
 import com.google.common.collect.Maps;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -23,20 +24,21 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Consumer;
 
+import static org.bukkit.persistence.PersistentDataType.STRING;
+
 public class DuckInventory {
 	final NamespacedKey key;
-	final HashMap<UUID, DuckButton> buttons;
-	private final HashMap<UUID, Player> opened;
+	final HashMap<UUID, DuckButton> buttons = Maps.newHashMap();
+	private final HashMap<UUID, Player> opened = Maps.newHashMap();
 	final Plugin plugin;
 	Inventory inventory;
 	boolean cancelled;
 	private Listener listen;
+	private final MiniMessage mm = MiniMessage.miniMessage();
 	public DuckInventory(Plugin plugin, int size, String name) {
-		this.buttons = Maps.newHashMap();
-		this.opened = Maps.newHashMap();
 		this.plugin = plugin;
 		this.key = new NamespacedKey(plugin, "button");
-		this.inventory = Bukkit.createInventory(null, size, name);
+		this.inventory = Bukkit.createInventory(null, size, mm.deserialize(name));
 		this.cancelled = true;
 	}
 
@@ -61,7 +63,7 @@ public class DuckInventory {
 	
 	public DuckInventory removeItem(int slot) {
 		ItemStack item = inventory.getItem(slot);
-		if (item.getItemMeta().getPersistentDataContainer().has(key, PersistentDataType.STRING)) buttons.remove(UUID.fromString(item.getItemMeta().getPersistentDataContainer().get(key, PersistentDataType.STRING)));
+		if (item.getItemMeta().getPersistentDataContainer().has(key, STRING)) buttons.remove(UUID.fromString(item.getItemMeta().getPersistentDataContainer().get(key, STRING)));
 		inventory.remove(item);
 		return this;
 	}
@@ -116,7 +118,7 @@ public class DuckInventory {
 	public DuckInventory addButton(ItemStack item, Consumer<InventoryClickEvent> onClick) {
 		UUID randomUUID = UUID.randomUUID();
 		ItemMeta meta = item.getItemMeta();
-		meta.getPersistentDataContainer().set(key, PersistentDataType.STRING, randomUUID.toString());
+		meta.getPersistentDataContainer().set(key, STRING, randomUUID.toString());
 		item.setItemMeta(meta);
 		buttons.put(randomUUID, new DuckButton(item, onClick));
 		inventory.addItem(item);
@@ -126,7 +128,7 @@ public class DuckInventory {
 	public DuckInventory setButton(int slot, ItemStack item, Consumer<InventoryClickEvent> onClick) {
 		UUID randomUUID = UUID.randomUUID();
 		ItemMeta meta = item.getItemMeta();
-		meta.getPersistentDataContainer().set(key, PersistentDataType.STRING, randomUUID.toString());
+		meta.getPersistentDataContainer().set(key, STRING, randomUUID.toString());
 		item.setItemMeta(meta);
 		buttons.put(randomUUID, new DuckButton(item, onClick));
 		inventory.setItem(slot, item);
@@ -184,9 +186,9 @@ public class DuckInventory {
 				if (e.getCurrentItem() == null || e.getCurrentItem().getType() == Material.AIR) return;
 				if (opened.containsKey(e.getWhoClicked().getUniqueId())) {
 					e.setCancelled(cancelled);
-					if (e.getCurrentItem().getItemMeta().getPersistentDataContainer().has(key, PersistentDataType.STRING)) {
+					if (e.getCurrentItem().getItemMeta().getPersistentDataContainer().has(key, STRING)) {
 						buttons.get(
-								UUID.fromString(e.getCurrentItem().getItemMeta().getPersistentDataContainer().get(key, PersistentDataType.STRING)))
+								UUID.fromString(e.getCurrentItem().getItemMeta().getPersistentDataContainer().get(key, STRING)))
 								.onClick().accept(e);
 					}
 				}
