@@ -24,6 +24,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Consumer;
 
+import static org.bukkit.Material.AIR;
 import static org.bukkit.persistence.PersistentDataType.STRING;
 
 public class DuckInventory {
@@ -104,6 +105,15 @@ public class DuckInventory {
 		}
 		return this;
 	}
+
+	public DuckInventory fillAir(ItemStack item) {
+		for (int i = 0; i < inventory.getSize(); i++) {
+			if (inventory.getItem(i).getType() == AIR
+				|| inventory.getItem(i) == null) setItem(i, item);
+			else continue;
+		}
+		return this;
+	}
 	
 	public DuckInventory addItem(ItemStack item) {
 		inventory.addItem(item);
@@ -163,12 +173,23 @@ public class DuckInventory {
 		fillColumnWithButtons(9, item, onClick);
 		return this;
 	}
+
+	public DuckInventory fillAirWithButtons(ItemStack item, Consumer<InventoryClickEvent> onClick) {
+		for (int i = 0; i < inventory.getSize(); i++) {
+			if (inventory.getItem(i).getType() == AIR
+					|| inventory.getItem(i) == null) setButton(i, item, onClick);
+			else continue;
+		}
+		return this;
+	}
+
 	public DuckInventory fillWithButtons(ItemStack item, Consumer<InventoryClickEvent> onClick) {
 		for (int i = 0; i < inventory.getSize(); i++) {
 			setButton(i, item, onClick);
 		}
 		return this;
 	}
+
 	
 	public DuckInventory open(Player player) {
 		player.openInventory(inventory);
@@ -183,7 +204,7 @@ public class DuckInventory {
 			public void unregister() {HandlerList.unregisterAll(this);}
 			@EventHandler
 			public void onClick(InventoryClickEvent e) {
-				if (e.getCurrentItem() == null || e.getCurrentItem().getType() == Material.AIR) return;
+				if (e.getCurrentItem() == null || e.getCurrentItem().getType() == AIR) return;
 				if (opened.containsKey(e.getWhoClicked().getUniqueId())) {
 					e.setCancelled(cancelled);
 					if (e.getCurrentItem().getItemMeta().getPersistentDataContainer().has(key, STRING)) {

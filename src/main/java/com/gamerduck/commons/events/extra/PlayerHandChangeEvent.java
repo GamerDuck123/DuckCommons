@@ -18,9 +18,6 @@ import static org.bukkit.Material.AIR;
 
 public class PlayerHandChangeEvent extends DuckPlayerEvent {
 
-    public static void enable(JavaPlugin plugin) {
-        plugin.getServer().getPluginManager().registerEvents(new PlayerHandChangeEventHandler(), plugin);
-    }
 
     public Integer newSlot;
     public ItemStack newItem;
@@ -66,6 +63,10 @@ public class PlayerHandChangeEvent extends DuckPlayerEvent {
     @Override
     public void setCancelled(boolean cancel) {
         cancelled = cancel;
+    }
+
+    public static void enable(JavaPlugin plugin) {
+        plugin.getServer().getPluginManager().registerEvents(new PlayerHandChangeEventHandler(), plugin);
     }
 }
 class PlayerHandChangeEventHandler implements Listener {
