@@ -19,6 +19,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.UUID;
@@ -108,8 +109,8 @@ public class DuckInventory {
 
 	public DuckInventory fillAir(ItemStack item) {
 		for (int i = 0; i < inventory.getSize(); i++) {
-			if (inventory.getItem(i).getType() == AIR
-				|| inventory.getItem(i) == null) setItem(i, item);
+			if (inventory.getItem(i) == null
+				|| inventory.getItem(i).getType() == AIR) setItem(i, item);
 			else continue;
 		}
 		return this;
@@ -176,8 +177,7 @@ public class DuckInventory {
 
 	public DuckInventory fillAirWithButtons(ItemStack item, Consumer<InventoryClickEvent> onClick) {
 		for (int i = 0; i < inventory.getSize(); i++) {
-			if (inventory.getItem(i).getType() == AIR
-					|| inventory.getItem(i) == null) setButton(i, item, onClick);
+			if (inventory.getItem(i) == null || inventory.getItem(i).getType() == AIR) setButton(i, item, onClick);
 			else continue;
 		}
 		return this;
