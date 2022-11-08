@@ -2,12 +2,14 @@ package com.gamerduck.commons.general;
 
 import org.bukkit.ChatColor;
 /**
+ * @Deprecated Needs to be recreated for components
  * Centers the text
  * https://www.spigotmc.org/threads/free-code-sending-perfectly-centered-chat-message.95872/
  *
  * @param str The string to center
  * @return The string, but centered
  */
+@Deprecated
 public final class CenteredMessage {
 
     private final static int CENTER_PX = 154;

@@ -2,6 +2,7 @@ package com.gamerduck.commons.general;
 
 import net.md_5.bungee.api.ChatColor;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -81,12 +82,14 @@ public class Strings {
 	}
 
 	/**
+	 * @Deprecated Use Components.translate(String str) instead
 	 * Colors a string using hex codes and regular color codes
 	 *
 	 * @param textToTranslate The string to color
 	 * @return The string, colored using hex and regular color codes
 	 */
 	private final static Pattern HEX_PATTERN = Pattern.compile("&#([A-Fa-f0-9]{6})");
+	@Deprecated(since = "Components were added")
 	public static String colorHex(String textToTranslate) {
 		Matcher matcher = HEX_PATTERN.matcher(textToTranslate);
 		StringBuffer buffer = new StringBuffer();
@@ -95,11 +98,13 @@ public class Strings {
 	} 
 
 	/**
+	 * @Deprecated Use Components.translate(List<String> strs) instead
 	 * Colors a list of strings using hex codes and regular color codes
 	 *
 	 * @param list The list of strings to color
 	 * @return The list of strings, colored using hex and regular color codes
 	 */
+	@Deprecated(since = "Components were added")
 	public static List<String> colorHex(List<String> list) {
 		return list.stream()
 				.peek(Strings::colorHex)
@@ -107,31 +112,37 @@ public class Strings {
 	}    
 
 	/**
+	 * @Deprecated Use Components.translate(String... strs) instead
 	 * Colors an array of strings using hex codes and regular color codes
 	 *
 	 * @param strings The strings to color
 	 * @return The strings, colored using hex and regular color codes
 	 */
+	@Deprecated(since = "Components were added")
 	public static List<String> colorHex(String... strings) {
 		return colorHex(Arrays.asList(strings));
 	}
 
 	/**
+	 * @Deprecated Use Components.translate(String str) instead
 	 * Colors a string using regular color codes
 	 *
 	 * @param textToTranslate The string to color
 	 * @return The string, colored using regular color codes
 	 */
+	@Deprecated(since = "Components were added")
 	public static String color(String textToTranslate) {
 		return ChatColor.translateAlternateColorCodes('&', textToTranslate);
 	}
 
 	/**
+	 * @Deprecated Use Components.translate(List<String> strs) instead
 	 * Colors a list of strings using regular color codes
 	 *
 	 * @param list The list of strings to color
 	 * @return The list of strings, colored using regular color codes
 	 */
+	@Deprecated(since = "Components were added")
 	public static List<String> color(List<String> list) {
 		return list.stream()
 				.peek(Strings::color)
@@ -139,11 +150,13 @@ public class Strings {
 	}
 
 	/**
+	 * @Deprecated Use Components.translate(String... strs) instead
 	 * Colors an array of strings using regular color codes
 	 *
 	 * @param strings The strings to color
 	 * @return The strings, colored using regular color codes
 	 */
+	@Deprecated(since = "Components were added")
 	public static List<String> color(String... strings) {
 		return color(Arrays.asList(strings));
 	}

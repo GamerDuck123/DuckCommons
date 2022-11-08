@@ -1,6 +1,7 @@
 package com.gamerduck.commons.items;
 
 import com.gamerduck.commons.general.ColorTranslator;
+import com.gamerduck.commons.general.Components;
 import com.google.common.collect.Lists;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -19,7 +20,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
+import static com.gamerduck.commons.general.Components.translate;
 import static com.gamerduck.commons.items.DuckItemListener.*;
 import static org.bukkit.persistence.PersistentDataType.*;
 
@@ -62,7 +65,7 @@ public class DuckItem extends ItemStack {
 	 * @return the same class with the display name changed
 	 */
 	public DuckItem withDisplayName(String name) {
-		return withDisplayName(mm.deserialize(name));
+		return withDisplayName(translate(name));
 	}
 
 	/**
@@ -109,8 +112,9 @@ public class DuckItem extends ItemStack {
 	 */
 	public DuckItem addToLore(Component comp) {
 		editMeta(meta -> {
-			if (meta.lore() == null) meta.lore(new ArrayList<>());
-			meta.lore().add(comp);
+			List<Component> comps = meta.lore() == null ? new ArrayList<>() : meta.lore();
+			comps.add(comp);
+			meta.lore(comps);
 		});
 		return this;
 	}
@@ -124,8 +128,9 @@ public class DuckItem extends ItemStack {
 	 */
 	public DuckItem addToLore(Component... comp) {
 		editMeta(meta -> {
-			if (meta.lore() == null) meta.lore(new ArrayList<>());
-			meta.lore().addAll(Arrays.asList(comp));
+			List<Component> comps = meta.lore() == null ? new ArrayList<>() : meta.lore();
+			comps.addAll(Arrays.asList(comp));
+			meta.lore(comps);
 		});
 		return this;
 	}
@@ -139,34 +144,37 @@ public class DuckItem extends ItemStack {
 	 */
 	public DuckItem addToLore(List<Component> comps) {
 		editMeta(meta -> {
-			if (meta.lore() == null) meta.lore(new ArrayList<>());
-			meta.lore().addAll(comps);
+			List<Component> list = meta.lore() == null ? new ArrayList<>() : meta.lore();
+			comps.addAll(comps);
+			meta.lore(list);
 		});
 		return this;
 	}
 
 	/**
+	 * @Deprecated Use addToLore(Component comp);
 	 * Add to the current lore of the item
 	 * If there was no previously set lore, it'll start with a new list
 	 *
 	 * @param str the string to be added to the lore
 	 * @return the same class with the lore changed
 	 */
+	@Deprecated(forRemoval = true, since = "Components were added")
 	public DuckItem addToLore(String str) {
-		return addToLore(mm.deserialize(str));
+		return addToLore(translate(str));
 	}
 
 	/**
+	 * @Deprecated Use addToLore(Component... comps);
 	 * Add to the current lore of the item
 	 * If there was no previously set lore, it'll start with a new list
 	 *
 	 * @param strs the strings to be added to the lore
 	 * @return the same class with the lore changed
 	 */
+	@Deprecated(forRemoval = true, since = "Components were added")
 	public DuckItem addToLore(String... strs) {
-		List<Component> comps = Lists.newArrayList();
-		Arrays.stream(strs).forEach(s -> comps.add(mm.deserialize(s)));
-		return addToLore(comps);
+		return addToLore(Arrays.stream(strs).map(s -> translate(s)).collect(Collectors.toList()));
 	}
 	
 	/**
