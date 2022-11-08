@@ -13,7 +13,7 @@ import java.net.URL;
 public class FileResClassLoader extends ClassLoader {
     private final transient File dataFolder;
 
-    FileResClassLoader(final ClassLoader classLoader, final JavaPlugin plugin) {
+    public FileResClassLoader(final ClassLoader classLoader, final JavaPlugin plugin) {
         super(classLoader);
         this.dataFolder = plugin.getDataFolder();
     }
