@@ -108,7 +108,10 @@ public class DuckItem extends ItemStack {
 	 * @return the same class with the lore changed
 	 */
 	public DuckItem addToLore(Component comp) {
-		editMeta(meta -> meta.lore().add(comp));
+		editMeta(meta -> {
+			if (meta.lore() == null) meta.lore(new ArrayList<>());
+			meta.lore().add(comp);
+		});
 		return this;
 	}
 
@@ -120,7 +123,10 @@ public class DuckItem extends ItemStack {
 	 * @return the same class with the lore changed
 	 */
 	public DuckItem addToLore(Component... comp) {
-		editMeta(meta -> meta.lore().addAll(Arrays.asList(comp)));
+		editMeta(meta -> {
+			if (meta.lore() == null) meta.lore(new ArrayList<>());
+			meta.lore().addAll(Arrays.asList(comp));
+		});
 		return this;
 	}
 
@@ -132,7 +138,10 @@ public class DuckItem extends ItemStack {
 	 * @return the same class with the lore changed
 	 */
 	public DuckItem addToLore(List<Component> comps) {
-		editMeta(meta -> meta.lore().addAll(comps));
+		editMeta(meta -> {
+			if (meta.lore() == null) meta.lore(new ArrayList<>());
+			meta.lore().addAll(comps);
+		});
 		return this;
 	}
 
