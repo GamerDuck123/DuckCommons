@@ -99,6 +99,7 @@ public class DuckItem extends ItemStack {
 	 * @return the same class with the lore changed
 	 */
 	public DuckItem withLore(List<Component> lore) {
+		if (lore == null) return this;
 		editMeta(meta -> meta.lore(lore));
 		return this;
 	}
@@ -111,6 +112,7 @@ public class DuckItem extends ItemStack {
 	 * @return the same class with the lore changed
 	 */
 	public DuckItem addToLore(Component comp) {
+		if (comp == null) return this;
 		editMeta(meta -> {
 			List<Component> comps = meta.lore() == null ? new ArrayList<>() : meta.lore();
 			comps.add(comp);
@@ -127,6 +129,7 @@ public class DuckItem extends ItemStack {
 	 * @return the same class with the lore changed
 	 */
 	public DuckItem addToLore(Component... comp) {
+		if (comp == null) return this;
 		editMeta(meta -> {
 			List<Component> comps = meta.lore() == null ? new ArrayList<>() : meta.lore();
 			comps.addAll(Arrays.asList(comp));
@@ -143,6 +146,7 @@ public class DuckItem extends ItemStack {
 	 * @return the same class with the lore changed
 	 */
 	public DuckItem addToLore(List<Component> comps) {
+		if (comps == null) return this;
 		editMeta(meta -> {
 			List<Component> list = meta.lore() == null ? new ArrayList<>() : meta.lore();
 			comps.addAll(comps);
@@ -298,6 +302,7 @@ public class DuckItem extends ItemStack {
 	 * @return the same class with the enchants changed
 	 */
 	public DuckItem withEnchant(Enchantment enchantment, int level) {
+		if (enchantment == null) return this;
 		addUnsafeEnchantment(enchantment, level);
 		return this;
 	}
@@ -309,6 +314,7 @@ public class DuckItem extends ItemStack {
 	 * @return the same class with the enchants changed
 	 */
 	public DuckItem withoutEnchant(Enchantment enchantment) {
+		if (enchantment == null) return this;
 		removeEnchantment(enchantment);
 		return this;
 	}
