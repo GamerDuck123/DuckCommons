@@ -1,5 +1,6 @@
 package com.gamerduck.commons.items;
 
+import com.gamerduck.commons.inventory.DuckInventory;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import org.bukkit.Bukkit;
@@ -23,7 +24,7 @@ import java.util.UUID;
  * @author GamerDuck123
  *
  */
-public class DuckSkull extends ItemStack {
+public class DuckSkull extends DuckItem {
 	public DuckSkull() {
 		super(Material.PLAYER_HEAD, 1);
 	}
