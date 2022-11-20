@@ -24,7 +24,7 @@ import java.util.UUID;
  * @author GamerDuck123
  *
  */
-public class DuckSkull extends DuckItem {
+public class DuckSkull extends ItemStack {
 	public DuckSkull() {
 		super(Material.PLAYER_HEAD, 1);
 	}

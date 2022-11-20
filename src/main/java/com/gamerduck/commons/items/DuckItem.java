@@ -149,7 +149,7 @@ public class DuckItem extends ItemStack {
 		if (comps == null) return this;
 		editMeta(meta -> {
 			List<Component> list = meta.lore() == null ? new ArrayList<>() : meta.lore();
-			comps.addAll(comps);
+			list.addAll(comps);
 			meta.lore(list);
 		});
 		return this;
@@ -290,6 +290,20 @@ public class DuckItem extends ItemStack {
 	 */
 	public DuckItem withPersistentDataContainer(NamespacedKey key, Short object) {
 		editMeta(meta -> meta.getPersistentDataContainer().set(key, SHORT, object));
+		return this;
+	}
+
+
+	/**
+	 * Set the persistent data container of the item
+	 *
+	 * @param key the namespacekey to be added to persistent data
+	 * @param type the type of persistent data
+	 * @param object the object for persistent data
+	 * @return the same class with the persistent data container changed
+	 */
+	public DuckItem withPersistentDataContainer(NamespacedKey key, PersistentDataType type, Object object) {
+		editMeta(meta -> meta.getPersistentDataContainer().set(key, type, object));
 		return this;
 	}
 
