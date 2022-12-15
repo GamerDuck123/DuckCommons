@@ -417,7 +417,7 @@ public class DuckItem extends ItemStack {
 	}
 
 	public ItemStack toItemStack() {
-		return this;
+		return new ItemStack(this);
 	}
 
 	/**
