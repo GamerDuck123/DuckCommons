@@ -1,5 +1,7 @@
 package com.gamerduck.commons.general;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.ChatColor;
 /**
  * @Deprecated Needs to be recreated for components
@@ -45,6 +47,11 @@ public final class CenteredMessage {
             compensated += spaceLength;
         }
         return sb.toString() + message;
+    }
+
+    public static Component generate(Component message) {
+        if (message == null) return message;
+        return message;
     }
 
     private enum DefaultFontSize {

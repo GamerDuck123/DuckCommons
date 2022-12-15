@@ -8,13 +8,37 @@ import static com.google.common.base.Strings.repeat;
 
 public class Numbers {
 
-	public static ArrayList<Integer> numbers = Lists.newArrayList(
-			1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1
-	);
+	public final static ArrayList<Integer> numbers = Lists.newArrayListWithCapacity(12);
+	public final static ArrayList<String> letters = Lists.newArrayListWithCapacity(12);
 
-	public static ArrayList<String> letters = Lists.newArrayList(
-			"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"
-	);
+	static {
+		letters.set(0, "M");
+		numbers.set(0, 1000);
+		letters.set(1, "CM");
+		numbers.set(1, 900);
+		letters.set(2, "D");
+		numbers.set(2, 500);
+		letters.set(3, "CD");
+		numbers.set(3, 400);
+		letters.set(4, "C");
+		numbers.set(4, 100);
+		letters.set(5, "XC");
+		numbers.set(5, 90);
+		letters.set(6, "L");
+		numbers.set(6, 50);
+		letters.set(7, "XL");
+		numbers.set(7, 40);
+		letters.set(8, "X");
+		numbers.set(8, 10);
+		letters.set(9, "IX");
+		numbers.set(9, 9);
+		letters.set(10, "V");
+		numbers.set(10, 5);
+		letters.set(11, "IV");
+		numbers.set(11, 4);
+		letters.set(12, "I");
+		numbers.set(12, 1);
+	}
 
 	/**
 	 * Converts a number to a roman numeral
@@ -46,7 +70,7 @@ public class Numbers {
 		letters.set(9, IX);
 		letters.set(10, V);
 		letters.set(11, IV);
-		letters.set(0, I);
+		letters.set(12, I);
 	}
 
 	/**

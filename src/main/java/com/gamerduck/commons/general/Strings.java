@@ -5,6 +5,7 @@ import net.md_5.bungee.api.ChatColor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.StringJoiner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -268,5 +269,4 @@ public class Strings {
 		}
 		return containsUpper && containsLower ? true : false; 
 	}
-
 }
