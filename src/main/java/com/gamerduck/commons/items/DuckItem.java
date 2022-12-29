@@ -4,18 +4,28 @@ import com.gamerduck.commons.general.ColorTranslator;
 import com.gamerduck.commons.general.Components;
 import com.google.common.collect.Lists;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.HoverEvent;
+import net.kyori.adventure.text.event.HoverEventSource;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.translation.Translatable;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.util.io.BukkitObjectInputStream;
+import org.bukkit.util.io.BukkitObjectOutputStream;
+import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -33,7 +43,8 @@ import static org.bukkit.persistence.PersistentDataType.*;
  * @author GamerDuck123
  *
  */
-public class DuckItem extends ItemStack {
+public class DuckItem extends ItemStack implements Cloneable,
+								ConfigurationSerializable, HoverEventSource<HoverEvent.ShowItem>, Translatable {
 
 	private final MiniMessage mm = MiniMessage.miniMessage();
 
@@ -416,8 +427,41 @@ public class DuckItem extends ItemStack {
 		return new DuckItem(item);
 	}
 
-	public ItemStack toItemStack() {
-		return new ItemStack(this);
+
+	/**
+	 * Turn a DuckItem into a base64 string
+	 *
+	 * @return The DuckItem as a base64 string
+	 */
+	public String toBase64() {
+		try {
+			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+			BukkitObjectOutputStream dataOutput = new BukkitObjectOutputStream(outputStream);
+			dataOutput.writeObject(this);
+			dataOutput.close();
+			return Base64Coder.encodeLines(outputStream.toByteArray());
+		} catch (Exception e) {
+			throw new IllegalStateException("Unable to save item stacks.", e);
+		}
+	}
+
+	/**
+	 * Turn a base64 string into a DuckItem
+	 *
+	 * @param base64 The base64 string
+	 * @return The DuckItem from a base64 string
+	 */
+	public static DuckItem fromBase64(String base64) {
+		try {
+			ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64Coder.decodeLines(base64));
+			BukkitObjectInputStream dataInput = new BukkitObjectInputStream(inputStream);
+			DuckItem items = (DuckItem) dataInput.readObject();
+			dataInput.close();
+			return items;
+		} catch (ClassNotFoundException | IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	/**

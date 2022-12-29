@@ -2,6 +2,8 @@ package com.gamerduck.commons.general;
 
 import com.google.common.collect.Lists;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 
 import static com.google.common.base.Strings.repeat;
@@ -141,5 +143,104 @@ public class Numbers {
 		} catch (NumberFormatException e) {
 			return false;
 		}
+	}
+
+	/**
+	 * Rounds a double to the corresponding places, with the corresponding RoundingMode
+	 *
+	 * @param number The number to be rounded
+	 * @param place The number of decimal places to be rounded to (i.e 2 = 0.00)
+	 * @param mode The rounding mode for which the rounding will be done with (HALF_UP is 0.5 goes up, anything below goes down)
+	 * @return The rounded double
+	 */
+	public static double round(double number, int place, RoundingMode mode) {
+		return BigDecimal.valueOf(number).setScale(place, mode).doubleValue();
+	}
+
+	/**
+	 * Rounds a double to the corresponding places, and defaults to HALF_UP for RoundingMode
+	 *
+	 * @param number The number to be rounded
+	 * @param place The number of decimal places to be rounded to (i.e 2 = 0.00)
+	 * @return The rounded double
+	 */
+	public static double round(double number, int place) {
+		return round(number, place, RoundingMode.HALF_UP);
+	}
+
+	/**
+	 * Rounds a double to 2 decimal places, and defaults to HALF_UP for RoundingMode
+	 *
+	 * @param number The number to be rounded
+	 * @return The rounded double
+	 */
+	public static double round(double number) {
+		return round(number, 2, RoundingMode.HALF_UP);
+	}
+
+	/**
+	 * Rounds a float to the corresponding places, with the corresponding RoundingMode
+	 *
+	 * @param number The number to be rounded
+	 * @param place The number of decimal places to be rounded to (i.e 2 = 0.00)
+	 * @param mode The rounding mode for which the rounding will be done with (HALF_UP is 0.5 goes up, anything below goes down)
+	 * @return The rounded float
+	 */
+	public static float round(float number, int place, RoundingMode mode) {
+		return BigDecimal.valueOf(number).setScale(place, mode).floatValue();
+	}
+
+	/**
+	 * Rounds a float to the corresponding places, and defaults to HALF_UP for RoundingMode
+	 *
+	 * @param number The number to be rounded
+	 * @param place The number of decimal places to be rounded to (i.e 2 = 0.00)
+	 * @return The rounded float
+	 */
+	public static float round(float number, int place) {
+		return round(number, place, RoundingMode.HALF_UP);
+	}
+
+	/**
+	 * Rounds a float to 2 decimal places, and defaults to HALF_UP for RoundingMode
+	 *
+	 * @param number The number to be rounded
+	 * @return The rounded float
+	 */
+	public static float round(float number) {
+		return round(number, 2, RoundingMode.HALF_UP);
+	}
+
+	/**
+	 * Rounds a long to the corresponding places, with the corresponding RoundingMode
+	 *
+	 * @param number The number to be rounded
+	 * @param place The number of decimal places to be rounded to (i.e 2 = 0.00)
+	 * @param mode The rounding mode for which the rounding will be done with (HALF_UP is 0.5 goes up, anything below goes down)
+	 * @return The rounded long
+	 */
+	public static long round(long number, int place, RoundingMode mode) {
+		return BigDecimal.valueOf(number).setScale(place, mode).longValue();
+	}
+
+	/**
+	 * Rounds a long to the corresponding places, and defaults to HALF_UP for RoundingMode
+	 *
+	 * @param number The number to be rounded
+	 * @param place The number of decimal places to be rounded to (i.e 2 = 0.00)
+	 * @return The rounded long
+	 */
+	public static long round(long number, int place) {
+		return round(number, place, RoundingMode.HALF_UP);
+	}
+
+	/**
+	 * Rounds a long to 2 decimal places, and defaults to HALF_UP for RoundingMode
+	 *
+	 * @param number The number to be rounded
+	 * @return The rounded long
+	 */
+	public static long round(long number) {
+		return round(number, 2, RoundingMode.HALF_UP);
 	}
 }
