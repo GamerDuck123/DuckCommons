@@ -28,22 +28,22 @@ public class Strings {
 	 * @param str The string to capitalize
 	 * @return The string with the first letter of each word capitalized
 	 */
-	public static String capitalizeEach(String s) {
-		String[] split = s.split(" ");
+	public static String capitalizeEach(String str) {
+		String[] split = str.split(" ");
 		StringBuilder builder = new StringBuilder();
-		for (String st : split) builder.append(st.substring(0, 1).toUpperCase() + st.substring(1));
+		for (String st : split) builder.append(capitalizeFirst(st) + " ");
 		return builder.toString();
 	}
 
 	/**
 	 * Capitalizes the first letter of all words in the string
 	 *
-	 * @param str The string to capitalize
+	 * @param strs The strings to capitalize
 	 * @return The string with the first letter of each word capitalized
 	 */
-	public static String capitalizeEach(String... s) {
+	public static String capitalizeEach(String... strs) {
 		StringBuilder builder = new StringBuilder();
-		for (String st : s) builder.append(st.substring(0, 1).toUpperCase() + st.substring(1));
+		for (String st : strs) builder.append(capitalizeFirst(st) + " ");
 		return builder.toString();
 	}
 
@@ -53,8 +53,8 @@ public class Strings {
 	 * @param str The string to uncapitalize
 	 * @return The string with the first letter uncapitalized
 	 */
-	public static String uncapitalizeFirst(String s) {
-		return s.substring(0, 1).toLowerCase() + s.substring(1);
+	public static String uncapitalizeFirst(String str) {
+		return str.substring(0, 1).toLowerCase() + str.substring(1);
 	}
 
 	/**
@@ -63,8 +63,8 @@ public class Strings {
 	 * @param str The string to uncapitalize
 	 * @return The string with the first letter of each word uncapitalized
 	 */
-	public static String uncapitalizeEach(String s) {
-		String[] split = s.split(" ");
+	public static String uncapitalizeEach(String str) {
+		String[] split = str.split(" ");
 		StringBuilder builder = new StringBuilder();
 		for (String st : split) builder.append(st.substring(0, 1).toLowerCase() + st.substring(1));
 		return builder.toString();
@@ -76,9 +76,9 @@ public class Strings {
 	 * @param str The string to uncapitalize
 	 * @return The string with the first letter of each word uncapitalized
 	 */
-	public static String uncapitalizeEach(String... s) {
+	public static String uncapitalizeEach(String... str) {
 		StringBuilder builder = new StringBuilder();
-		for (String st : s) builder.append(st.substring(0, 1).toLowerCase() + st.substring(1));
+		for (String st : str) builder.append(st.substring(0, 1).toLowerCase() + st.substring(1));
 		return builder.toString();
 	}
 
