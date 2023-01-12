@@ -162,7 +162,7 @@ public class DuckItem extends ItemStack implements Cloneable,
      * @param lore the new lore
      * @return the same class with the lore changed
      */
-    public DuckItem lore(List<Component> lore) {
+    public DuckItem setlore(List<Component> lore) {
         if (lore == null) return this;
         editMeta(meta -> meta.lore(lore));
         return this;
