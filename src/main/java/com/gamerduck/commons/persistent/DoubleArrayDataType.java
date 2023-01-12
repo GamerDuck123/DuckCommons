@@ -1,6 +1,5 @@
 package com.gamerduck.commons.persistent;
 
-import org.bukkit.entity.EntityType;
 import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
@@ -20,7 +19,7 @@ public class DoubleArrayDataType implements PersistentDataType<byte[], double[]>
     }
 
     @Override
-    public byte [] toPrimitive(final double[] doubles, final @NotNull PersistentDataAdapterContext itemTagAdapterContext) {
+    public byte[] toPrimitive(final double[] doubles, final @NotNull PersistentDataAdapterContext itemTagAdapterContext) {
         try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
              DataOutputStream dos = new DataOutputStream(bos)) {
             dos.writeInt(doubles.length);
@@ -35,7 +34,7 @@ public class DoubleArrayDataType implements PersistentDataType<byte[], double[]>
     }
 
     @Override
-    public double [] fromPrimitive(final byte [] bytes, @NotNull final PersistentDataAdapterContext itemTagAdapterContext) {
+    public double[] fromPrimitive(final byte[] bytes, @NotNull final PersistentDataAdapterContext itemTagAdapterContext) {
         try (ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
              DataInputStream dis = new DataInputStream(bis)) {
             final double[] doubles = new double[dis.readInt()];

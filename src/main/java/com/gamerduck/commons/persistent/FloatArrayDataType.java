@@ -19,7 +19,7 @@ public class FloatArrayDataType implements PersistentDataType<byte[], float[]> {
     }
 
     @Override
-    public byte [] toPrimitive(final float[] floats, final @NotNull PersistentDataAdapterContext itemTagAdapterContext) {
+    public byte[] toPrimitive(final float[] floats, final @NotNull PersistentDataAdapterContext itemTagAdapterContext) {
         try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
              DataOutputStream dos = new DataOutputStream(bos)) {
             dos.writeInt(floats.length);
@@ -34,7 +34,7 @@ public class FloatArrayDataType implements PersistentDataType<byte[], float[]> {
     }
 
     @Override
-    public float [] fromPrimitive(final byte [] bytes, @NotNull final PersistentDataAdapterContext itemTagAdapterContext) {
+    public float[] fromPrimitive(final byte[] bytes, @NotNull final PersistentDataAdapterContext itemTagAdapterContext) {
         try (ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
              DataInputStream dis = new DataInputStream(bis)) {
             final float[] floats = new float[dis.readInt()];

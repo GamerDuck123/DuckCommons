@@ -1,6 +1,5 @@
 package com.gamerduck.commons.serializers;
 
-import com.gamerduck.commons.items.DuckItem;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;

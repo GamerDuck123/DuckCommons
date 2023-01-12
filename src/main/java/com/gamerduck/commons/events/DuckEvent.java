@@ -1,12 +1,19 @@
 package com.gamerduck.commons.events;
 
 import org.bukkit.event.Event;
+
 /**
  * This class replaces Event and acts in place for DuckPlayerEvent and DuckServerEvent
- * 
- * @author GamerDuck123
  *
+ * @author GamerDuck123
  */
 public abstract class DuckEvent extends Event {
 
+    public DuckEvent() {
+        super(false);
+    }
+
+    public DuckEvent(boolean isAsync) {
+        super(isAsync);
+    }
 }

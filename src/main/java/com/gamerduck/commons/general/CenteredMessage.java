@@ -1,14 +1,13 @@
 package com.gamerduck.commons.general;
 
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.ChatColor;
+
 /**
+ * @param str The string to center
  * @Deprecated Needs to be recreated for components
  * Centers the text
  * https://www.spigotmc.org/threads/free-code-sending-perfectly-centered-chat-message.95872/
- *
- * @param str The string to center
  * @return The string, but centered
  */
 @Deprecated
@@ -25,7 +24,7 @@ public final class CenteredMessage {
         boolean isBold = false;
 
         for (char c : message.toCharArray()) {
-            if (c == '§') {
+            if (c == 'ï¿½') {
                 previousCode = true;
             } else if (previousCode) {
                 previousCode = false;

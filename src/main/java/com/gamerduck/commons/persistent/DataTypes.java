@@ -4,7 +4,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.nio.charset.StandardCharsets;
-import java.util.UUID;
 
 public interface DataTypes {
 

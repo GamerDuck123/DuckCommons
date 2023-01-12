@@ -6,50 +6,52 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Properties;
+
 /**
  * This class provides an object for databases
- * 
- * @author GamerDuck123
  *
+ * @author GamerDuck123
  */
 public class Database {
-	public Connection connection;
+    public Connection connection;
 
-	public Database(String name, String folder) throws Exception {
-		File folderFile = new File(folder);
-		folderFile.mkdirs();
-		Class.forName("org.sqlite.JDBC").getDeclaredConstructor().newInstance();
-		connection = DriverManager.getConnection("jdbc:sqlite:" + new File(folderFile, name + ".db"));
-	}
+    public Database(String name, String folder) throws Exception {
+        File folderFile = new File(folder);
+        folderFile.mkdirs();
+        Class.forName("org.sqlite.JDBC").getDeclaredConstructor().newInstance();
+        connection = DriverManager.getConnection("jdbc:sqlite:" + new File(folderFile, name + ".db"));
+    }
 
-	public Database(boolean reconnect, String host, String database, String username, String password, int port) throws Exception {
-		Properties info = new Properties();
-		info.setProperty("useSSL", "true");
+    public Database(boolean reconnect, String host, String database, String username, String password, int port) throws Exception {
+        Properties info = new Properties();
+        info.setProperty("useSSL", "true");
 
-		if (reconnect) {
-			info.setProperty("autoReconnect", "true");
-		}
-		info.setProperty("trustServerCertificate", "true");
-		info.setProperty("user", username);
-		info.setProperty("password", password);
+        if (reconnect) {
+            info.setProperty("autoReconnect", "true");
+        }
+        info.setProperty("trustServerCertificate", "true");
+        info.setProperty("user", username);
+        info.setProperty("password", password);
 
-		Class.forName("com.mysql.jdbc.Driver").getDeclaredConstructor().newInstance();
-		connection = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database, info);
-	}
+        Class.forName("com.mysql.jdbc.Driver").getDeclaredConstructor().newInstance();
+        connection = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database, info);
+    }
 
-	public void createTable(String sqlURL) throws SQLException {
-		try (PreparedStatement statement = connection.prepareStatement(sqlURL)) {
-			statement.executeUpdate();
-		}
-	}
+    public void createTable(String sqlURL) throws SQLException {
+        try (PreparedStatement statement = connection.prepareStatement(sqlURL)) {
+            statement.executeUpdate();
+        }
+    }
 
-	public Connection connection() {return connection;}
+    public Connection connection() {
+        return connection;
+    }
 
-	public void close() {
-		try {
-			connection.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
+    public void close() {
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

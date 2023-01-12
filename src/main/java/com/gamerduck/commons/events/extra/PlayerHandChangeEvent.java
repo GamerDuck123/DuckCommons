@@ -19,10 +19,12 @@ import static org.bukkit.Material.AIR;
 public class PlayerHandChangeEvent extends DuckPlayerEvent {
 
 
+    private static HandlerList HANDLERS = new HandlerList();
     public Integer newSlot;
     public ItemStack newItem;
     public Integer oldSlot;
     public ItemStack oldItem;
+    private boolean cancelled = false;
 
     public PlayerHandChangeEvent(Player who, ItemStack newItem, Integer newSlot, ItemStack oldItem, Integer oldSlot) {
         super(who);
@@ -30,6 +32,14 @@ public class PlayerHandChangeEvent extends DuckPlayerEvent {
         this.newItem = newItem;
         this.oldSlot = oldSlot;
         this.oldItem = oldItem;
+    }
+
+    public static HandlerList getHandlerList() {
+        return HANDLERS;
+    }
+
+    public static void enable(JavaPlugin plugin) {
+        plugin.getServer().getPluginManager().registerEvents(new PlayerHandChangeEventHandler(), plugin);
     }
 
     public Integer getNewSlot() {
@@ -48,12 +58,9 @@ public class PlayerHandChangeEvent extends DuckPlayerEvent {
         return oldItem;
     }
 
-    private static HandlerList HANDLERS = new HandlerList();
-    public static HandlerList getHandlerList() {return HANDLERS;}
-    public HandlerList getHandlers() {return HANDLERS;}
-
-
-    private boolean cancelled = false;
+    public HandlerList getHandlers() {
+        return HANDLERS;
+    }
 
     @Override
     public boolean isCancelled() {
@@ -64,11 +71,8 @@ public class PlayerHandChangeEvent extends DuckPlayerEvent {
     public void setCancelled(boolean cancel) {
         cancelled = cancel;
     }
-
-    public static void enable(JavaPlugin plugin) {
-        plugin.getServer().getPluginManager().registerEvents(new PlayerHandChangeEventHandler(), plugin);
-    }
 }
+
 class PlayerHandChangeEventHandler implements Listener {
 
 

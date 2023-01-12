@@ -15,6 +15,21 @@ import static net.kyori.adventure.text.minimessage.MiniMessage.miniMessage;
 public class Components {
 
     public static final MiniMessage mm = miniMessage();
+    /**
+     * Converts all colorcodes formatted &a into MiniMessage colorcodes
+     *
+     * @param str The string to convert
+     * @return The converted string
+     */
+    private static final Pattern OLD_PATTERN = Pattern.compile("&([A-Na-n\\d])");
+    /**
+     * Converts all hex colorcodes formatted &#FFFFFF into MiniMessage colorcodes
+     *
+     * @param str The string to convert
+     * @return The converted string
+     */
+    private final static Pattern HEX_PATTERN = Pattern.compile("&#([A-Fa-f0-9]{6})");
+    private final static Pattern ALL_PATTERN = Pattern.compile("(.*?)");
 
     /**
      * Translates regular strings into a components using MiniMessage
@@ -46,35 +61,19 @@ public class Components {
         return mm.deserialize(str);
     }
 
-    /**
-     * Converts all colorcodes formatted &a into MiniMessage colorcodes
-     *
-     * @param str The string to convert
-     * @return The converted string
-     */
-    private static final Pattern OLD_PATTERN = Pattern.compile("&([A-Na-n\\d])");
     public static String convertFromOldColors(String str) {
         Matcher matcher = OLD_PATTERN.matcher(str);
         StringBuilder buffer = new StringBuilder();
-        while(matcher.find()) matcher.appendReplacement(buffer, ColorTranslator.of("&" + matcher.group(1)).mm);
+        while (matcher.find()) matcher.appendReplacement(buffer, ColorTranslator.of("&" + matcher.group(1)).mm);
         return matcher.appendTail(buffer).toString();
     }
 
-    /**
-     * Converts all hex colorcodes formatted &#FFFFFF into MiniMessage colorcodes
-     *
-     * @param str The string to convert
-     * @return The converted string
-     */
-    private final static Pattern HEX_PATTERN = Pattern.compile("&#([A-Fa-f0-9]{6})");
     public static String convertFromOldHexColors(String str) {
         Matcher matcher = HEX_PATTERN.matcher(str);
         StringBuilder buffer = new StringBuilder();
-        while(matcher.find()) matcher.appendReplacement(buffer, "<" + matcher.group(1) + ">");
+        while (matcher.find()) matcher.appendReplacement(buffer, "<" + matcher.group(1) + ">");
         return matcher.appendTail(buffer).toString();
     }
-
-    private final static Pattern ALL_PATTERN = Pattern.compile("(.*?)");
 
     /**
      * Capitalizes the first letter of a component
@@ -84,7 +83,7 @@ public class Components {
      */
     public static Component capitalizeFirst(Component comp) {
         return comp.replaceText(b ->
-                    b.once().match(ALL_PATTERN).replacement((result, builder) -> mm.deserialize(Strings.capitalizeFirst(result.group(1)))));
+                b.once().match(ALL_PATTERN).replacement((result, builder) -> mm.deserialize(Strings.capitalizeFirst(result.group(1)))));
     }
 
     /**

@@ -18,7 +18,7 @@ public class BooleanArrayDataType implements PersistentDataType<byte[], boolean[
     }
 
     @Override
-    public byte [] toPrimitive(final boolean[] booleans, final @NotNull PersistentDataAdapterContext context) {
+    public byte[] toPrimitive(final boolean[] booleans, final @NotNull PersistentDataAdapterContext context) {
         final byte[] bytes = new byte[booleans.length];
         for (int i = 0; i < booleans.length; i++) {
             bytes[i] = (byte) (booleans[i] ? 1 : 0);
@@ -27,7 +27,7 @@ public class BooleanArrayDataType implements PersistentDataType<byte[], boolean[
     }
 
     @Override
-    public boolean [] fromPrimitive(final byte[] bytes, final @NotNull PersistentDataAdapterContext context) {
+    public boolean[] fromPrimitive(final byte[] bytes, final @NotNull PersistentDataAdapterContext context) {
         final boolean[] booleans = new boolean[bytes.length];
         for (int i = 0; i < bytes.length; i++) {
             booleans[i] = bytes[i] != 0;

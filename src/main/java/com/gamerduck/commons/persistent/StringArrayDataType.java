@@ -28,7 +28,7 @@ public class StringArrayDataType implements PersistentDataType<byte[], String[]>
     }
 
     @Override
-    public byte [] toPrimitive(final String[] strings, @NotNull final PersistentDataAdapterContext context) {
+    public byte[] toPrimitive(final String[] strings, @NotNull final PersistentDataAdapterContext context) {
         final byte[][] allStringBytes = new byte[strings.length][];
         int total = 0;
         for (int i = 0; i < allStringBytes.length; i++) {
@@ -47,7 +47,7 @@ public class StringArrayDataType implements PersistentDataType<byte[], String[]>
     }
 
     @Override
-    public String [] fromPrimitive(final byte [] bytes, @NotNull final PersistentDataAdapterContext itemTagAdapterContext) {
+    public String[] fromPrimitive(final byte[] bytes, @NotNull final PersistentDataAdapterContext itemTagAdapterContext) {
         final ByteBuffer buffer = ByteBuffer.wrap(bytes);
         final List<String> list = new ArrayList<>();
 

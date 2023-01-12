@@ -30,7 +30,8 @@ public class EnhancePlayerArmorChangeEvent implements Listener {
                                     && (p.getInventory().getLeggings() == null || p.getInventory().getLeggings().getType() == AIR)) ? LEGS :
                                     (e.getItem().getType().toString().contains("BOOTS")
                                             && (p.getInventory().getBoots() == null || p.getInventory().getBoots().getType() == AIR)) ? FEET : null;
-            if (slotType != null) Bukkit.getPluginManager().callEvent(new PlayerArmorChangeEvent(p, slotType, new ItemStack(AIR), e.getItem()));
+            if (slotType != null)
+                Bukkit.getPluginManager().callEvent(new PlayerArmorChangeEvent(p, slotType, new ItemStack(AIR), e.getItem()));
         }
     }
 }

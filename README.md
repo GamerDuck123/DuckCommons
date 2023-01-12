@@ -17,7 +17,10 @@
 # DuckCommons
 
 ### Powerful
+
 DuckCommons is a powerful util, with many features for item building, inventory building and much more!
 
 ### Lightweight
-DuckCommons is meant to be small, with all classes only containing code from within themselves, allows the end user to only use said class and nothing more!
+
+DuckCommons is meant to be small, with all classes only containing code from within themselves, allows the end user to
+only use said class and nothing more!

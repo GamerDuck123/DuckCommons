@@ -27,7 +27,7 @@ public class DuckItemListener {
             @EventHandler
             public void onClick(PlayerInteractEvent e) {
                 if (e.getItem() == null || e.getItem().getType() == null || e.getItem().getType() == Material.AIR
-                    || e.getItem().getItemMeta() == null || !e.getItem().hasItemMeta()) return;
+                        || e.getItem().getItemMeta() == null || !e.getItem().hasItemMeta()) return;
                 if (e.getItem().getItemMeta().getPersistentDataContainer().has(key, STRING)) {
                     if (itemList.containsKey(e.getItem().getItemMeta().getPersistentDataContainer().get(key, STRING))) {
                         itemList.get(e.getItem().getItemMeta().getPersistentDataContainer().get(key, STRING)).accept(e);

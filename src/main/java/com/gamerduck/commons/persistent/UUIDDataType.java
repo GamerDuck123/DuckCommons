@@ -4,7 +4,6 @@ import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.*;
 import java.nio.ByteBuffer;
 import java.util.UUID;
 
@@ -21,7 +20,7 @@ public class UUIDDataType implements PersistentDataType<byte[], UUID> {
     }
 
     @Override
-    public byte [] toPrimitive(final UUID complex, @NotNull final PersistentDataAdapterContext context) {
+    public byte[] toPrimitive(final UUID complex, @NotNull final PersistentDataAdapterContext context) {
         final ByteBuffer bb = ByteBuffer.wrap(new byte[16]);
         bb.putLong(complex.getMostSignificantBits());
         bb.putLong(complex.getLeastSignificantBits());
@@ -29,7 +28,7 @@ public class UUIDDataType implements PersistentDataType<byte[], UUID> {
     }
 
     @Override
-    public @NotNull UUID fromPrimitive(final byte [] primitive, @NotNull final PersistentDataAdapterContext context) {
+    public @NotNull UUID fromPrimitive(final byte[] primitive, @NotNull final PersistentDataAdapterContext context) {
         final ByteBuffer bb = ByteBuffer.wrap(primitive);
         final long firstLong = bb.getLong();
         final long secondLong = bb.getLong();
