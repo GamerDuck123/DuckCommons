@@ -91,7 +91,7 @@ public abstract class AbstractDuckCommandWithArgs implements CommandExecutor, Ta
                     } else {
                         DuckArgument argument = arguments.get(args[0]);
                         if (!sender.hasPermission(argument.permission())) {
-                            sender.sendMessage(permissionMessage());
+                            sender.sendMessage(argument.permissionMessage());
                             return false;
                         } else return arguments.get(args[0]).run(sender, this, commandLabel, args);
                     }

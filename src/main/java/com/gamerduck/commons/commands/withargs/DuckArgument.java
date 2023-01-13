@@ -8,8 +8,6 @@ import java.util.List;
 public abstract class DuckArgument {
 
     public abstract String permission();
-    public abstract String usage();
-
     public abstract String permissionMessage();
 
     public abstract boolean run(CommandSender sender, Command cmd, String label, String[] args);
