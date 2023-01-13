@@ -97,7 +97,7 @@ public abstract class DuckCommand implements IDuckCommand {
                         } else return arguments.get(args[0]).run(sender, this, commandLabel, args);
                     }
                 } else {
-                    if (!sender.hasPermission(permissions())) {
+                    if (!sender.hasPermission(permission())) {
                         sender.sendMessage(permissionMessage());
                         return false;
                     } else return exe.onCommand(sender, this, commandLabel, args);
@@ -109,14 +109,12 @@ public abstract class DuckCommand implements IDuckCommand {
         @Override
         public List<String> tabComplete(CommandSender sender, String commandLabel, String[] args) {
             if (exe != null) {
-//                if (args != null && args.length > 0 && args[0] != null && !args[0].isEmpty()) arguments.get(args[0]).run(sender, this, commandLabel, args);
-//                else return exe.onTabComplete(sender, this, commandLabel, args);
                 if (arguments != null && args != null && args.length > 1 && args[0] != null && !args[0].isEmpty()) {
                     if (!arguments.containsKey(args[0])) {
                         return exe.onTabComplete(sender, this, commandLabel, args);
                     } else return arguments.get(args[0]).tab(sender, this, commandLabel, args);
                 } else {
-                    if (!sender.hasPermission(permissions())) {
+                    if (!sender.hasPermission(permission())) {
                         return null;
                     } else return exe.onTabComplete(sender, this, commandLabel, args);
                 }
