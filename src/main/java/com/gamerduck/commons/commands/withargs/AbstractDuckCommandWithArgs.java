@@ -110,9 +110,9 @@ public abstract class AbstractDuckCommandWithArgs implements CommandExecutor, Ta
             if (exe != null) {
 //                if (args != null && args.length > 0 && args[0] != null && !args[0].isEmpty()) arguments.get(args[0]).run(sender, this, commandLabel, args);
 //                else return exe.onTabComplete(sender, this, commandLabel, args);
-                if (args != null && args.length > 0 && args[0] != null && !args[0].isEmpty()) {
+                if (args != null && args.length > 1 && args[0] != null && !args[0].isEmpty()) {
                     if (!arguments.containsKey(args[0])) {
-                        return null;
+                        return exe.onTabComplete(sender, this, commandLabel, args);
                     } else return arguments.get(args[0]).tab(sender, this, commandLabel, args);
                 } else {
                     if (!sender.hasPermission(permissions())) {
