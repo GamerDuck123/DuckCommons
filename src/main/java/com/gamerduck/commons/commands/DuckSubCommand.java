@@ -1,11 +1,11 @@
-package com.gamerduck.commons.commands.withargs;
+package com.gamerduck.commons.commands;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
 
-public abstract class DuckArgument {
+public abstract class DuckSubCommand {
 
     public abstract String permission();
     public abstract String permissionMessage();
