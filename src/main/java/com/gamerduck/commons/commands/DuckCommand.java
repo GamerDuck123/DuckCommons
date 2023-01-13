@@ -39,7 +39,9 @@ public abstract class DuckCommand implements IDuckCommand {
         return miniMessage().deserialize("/" + command());
     }
 
-    public abstract String permission();
+    public String permission() {
+        return null;
+    }
 
     public abstract Component permissionMessage();
 
@@ -109,7 +111,7 @@ public abstract class DuckCommand implements IDuckCommand {
                         } else return arguments.get(args[0]).run(sender, this, commandLabel, args);
                     }
                 } else {
-                    if (!sender.hasPermission(permission())) {
+                    if (permission() != null && !sender.hasPermission(permission())) {
                         sender.sendMessage(permissionMessage());
                         return false;
                     } else return exe.onCommand(sender, this, commandLabel, args);
@@ -126,7 +128,7 @@ public abstract class DuckCommand implements IDuckCommand {
                         return exe.onTabComplete(sender, this, commandLabel, args);
                     } else return arguments.get(args[0]).tab(sender, this, commandLabel, args);
                 } else {
-                    if (!sender.hasPermission(permission())) {
+                    if (permission() != null && !sender.hasPermission(permission())) {
                         return null;
                     } else return exe.onTabComplete(sender, this, commandLabel, args);
                 }
