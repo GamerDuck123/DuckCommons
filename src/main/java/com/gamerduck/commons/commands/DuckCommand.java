@@ -27,11 +27,13 @@ public abstract class DuckCommand implements IDuckCommand {
         return null;
     };
 
-    public abstract String description();
+    public String description() {
+        return "A command";
+    }
 
     public abstract String usage();
 
-    public abstract String permissions();
+    public abstract String permission();
 
     public abstract String permissionMessage();
 
