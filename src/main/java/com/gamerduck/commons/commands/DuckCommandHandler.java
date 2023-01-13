@@ -1,10 +1,6 @@
 package com.gamerduck.commons.commands;
 
-import org.bukkit.plugin.java.JavaPlugin;
-
-import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -14,21 +10,15 @@ import java.util.List;
  */
 public class DuckCommandHandler {
 
-    public DuckCommandHandler(JavaPlugin main, String pluginname, List<Class<?>> classes) {
+    public DuckCommandHandler(String pluginname, List<Class<?>> classes) {
         for (Class<?> clazz : classes) {
-            if (AbstractDuckCommand.class.isAssignableFrom(clazz)) {
-                Annotation[] annons = clazz.getAnnotations();
-                for (Annotation annon : annons) {
-                    if (annon instanceof DuckCommand) {
-                        DuckCommand myannon = (DuckCommand) annon;
-                        try {
-                            AbstractDuckCommand cmdclass = (AbstractDuckCommand) clazz.getConstructor().newInstance();
-                            cmdclass.register(myannon.command(), myannon.usageARGS(), myannon.description(), "", Arrays.asList(myannon.aliases()), pluginname);
-                        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-                                 | InvocationTargetException | NoSuchMethodException | SecurityException e) {
-                            e.printStackTrace();
-                        }
-                    }
+            if (IDuckCommand.class.isAssignableFrom(clazz)) {
+                try {
+                    IDuckCommand cmdclass = (IDuckCommand) clazz.getConstructor().newInstance();
+                    cmdclass.register(pluginname);
+                } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+                         | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+                    e.printStackTrace();
                 }
             }
         }

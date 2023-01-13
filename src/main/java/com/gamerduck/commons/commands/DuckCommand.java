@@ -9,14 +9,4 @@ import java.lang.annotation.RetentionPolicy;
  * @author GamerDuck123
  */
 @Retention(RetentionPolicy.RUNTIME)
-public @interface DuckCommand {
-    public String command() default "";
-
-    public String[] aliases() default "";
-
-    public String description() default "";
-
-    public String usageARGS() default "";
-
-    public String[] permissions() default "";
-}
+public @interface DuckCommand { }

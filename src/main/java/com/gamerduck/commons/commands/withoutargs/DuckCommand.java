@@ -1,5 +1,6 @@
-package com.gamerduck.commons.commands;
+package com.gamerduck.commons.commands.withoutargs;
 
+import com.gamerduck.commons.commands.IDuckCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.command.*;
 
@@ -12,16 +13,27 @@ import java.util.List;
  *
  * @author GamerDuck123
  */
-public abstract class AbstractDuckCommand implements CommandExecutor, TabExecutor {
-
+public abstract class DuckCommand implements IDuckCommand {
     protected static CommandMap cmap;
 
-    public void register(String command, String usage, String description, String permissionMessage, List<String> aliases, String fallbackprefix) {
-        ReflectCommand cmd = new ReflectCommand(command);
-        if (aliases != null) cmd.setAliases(aliases);
-        if (description != null) cmd.setDescription(description);
-        if (usage != null) cmd.setUsage(usage);
-        if (permissionMessage != null) cmd.setPermissionMessage(permissionMessage);
+    public abstract String command();
+
+    public abstract List<String> aliases();
+
+    public abstract String description();
+
+    public abstract String usage();
+
+    public abstract String permissions();
+
+    public abstract String permissionMessage();
+
+    public void register(String fallbackprefix) {
+        ReflectCommand cmd = new ReflectCommand(command());
+        if (aliases() != null) cmd.setAliases(aliases());
+        if (description() != null) cmd.setDescription(description());
+        if (usage() != null) cmd.setUsage(usage());
+        if (permissionMessage() != null) cmd.setPermissionMessage(permissionMessage());
         getCommandMap().register(fallbackprefix, cmd);
         cmd.setExecutor(this);
     }
@@ -49,28 +61,33 @@ public abstract class AbstractDuckCommand implements CommandExecutor, TabExecuto
     }
 
     private final class ReflectCommand extends Command {
-        private AbstractDuckCommand exe = null;
+        private DuckCommand exe = null;
 
         protected ReflectCommand(String command) {
             super(command);
         }
 
-        public void setExecutor(AbstractDuckCommand exe) {
+        public void setExecutor(DuckCommand exe) {
             this.exe = exe;
         }
 
         @Override
         public boolean execute(CommandSender sender, String commandLabel, String[] args) {
             if (exe != null) {
-                return exe.onCommand(sender, this, commandLabel, args);
+                if (!sender.hasPermission(permissions())) {
+                    sender.sendMessage(permissionMessage());
+                    return false;
+                } else return exe.onCommand(sender, this, commandLabel, args);
             }
             return false;
         }
 
         @Override
-        public List<String> tabComplete(CommandSender sender, String alais, String[] args) {
+        public List<String> tabComplete(CommandSender sender, String commandLabel, String[] args) {
             if (exe != null) {
-                return exe.onTabComplete(sender, this, alais, args);
+                if (!sender.hasPermission(permissions())) {
+                    return null;
+                } else return exe.onTabComplete(sender, this, commandLabel, args);
             }
             return null;
         }

@@ -1,17 +1,12 @@
 package com.gamerduck.commons.commands.withargs;
 
-import com.google.common.collect.Maps;
+import com.gamerduck.commons.commands.IDuckCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.command.*;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static org.bukkit.Bukkit.permissionMessage;
 
 /**
  * AbstractDuckCommand is meant to be used in place of CommandExecutor and TabExecutor
@@ -19,7 +14,7 @@ import static org.bukkit.Bukkit.permissionMessage;
  *
  * @author GamerDuck123
  */
-public abstract class AbstractDuckCommandWithArgs implements CommandExecutor, TabExecutor {
+public abstract class DuckCommandWithArgs implements IDuckCommand {
 
     protected static CommandMap cmap;
     public abstract String command();
@@ -69,7 +64,7 @@ public abstract class AbstractDuckCommandWithArgs implements CommandExecutor, Ta
     }
 
     private final class ReflectCommand extends Command {
-        private AbstractDuckCommandWithArgs exe = null;
+        private DuckCommandWithArgs exe = null;
         private Map<String, DuckArgument> arguments;
 
         protected ReflectCommand(String command, Map<String, DuckArgument> arguments) {
@@ -77,7 +72,7 @@ public abstract class AbstractDuckCommandWithArgs implements CommandExecutor, Ta
             this.arguments = arguments;
         }
 
-        public void setExecutor(AbstractDuckCommandWithArgs exe) {
+        public void setExecutor(DuckCommandWithArgs exe) {
             this.exe = exe;
         }
 
