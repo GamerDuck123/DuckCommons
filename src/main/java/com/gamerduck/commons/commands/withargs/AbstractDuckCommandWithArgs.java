@@ -10,6 +10,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import static org.bukkit.Bukkit.permissionMessage;
+
 /**
  * AbstractDuckCommand is meant to be used in place of CommandExecutor and TabExecutor
  * This class acts a way for DuckCommandHandler to figure out what to register
@@ -19,24 +21,26 @@ import java.util.List;
 public abstract class AbstractDuckCommandWithArgs implements CommandExecutor, TabExecutor {
 
     protected static CommandMap cmap;
+    public abstract String command();
 
-    public void register(String command, Class<? extends DuckArgument>[] arguments, String usage, String description, String permissionMessage, List<String> aliases, String fallbackprefix) {
-        HashMap<String, DuckArgument> tempMap = Maps.newHashMap();
-        Arrays.stream(arguments).forEach(arg -> {
-            DuckArgument newArg = null;
-            try {
-                newArg = arg.getConstructor().newInstance();
-            } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-                     | InvocationTargetException | NoSuchMethodException | SecurityException e) {
-                e.printStackTrace();
-            }
-            tempMap.put(newArg.argument(), newArg);
-        });
-        ReflectCommand cmd = new ReflectCommand(command, tempMap);
-        if (aliases != null) cmd.setAliases(aliases);
-        if (description != null) cmd.setDescription(description);
-        if (usage != null) cmd.setUsage(usage);
-        if (permissionMessage != null) cmd.setPermissionMessage(permissionMessage);
+    public abstract HashMap<String, DuckArgument> arguments();
+
+    public abstract List<String> aliases();
+
+    public abstract String description();
+
+    public abstract String usage();
+
+    public abstract String[] permissions();
+
+    public abstract String permissionMessage();
+
+    public void register(String fallbackprefix) {
+        ReflectCommand cmd = new ReflectCommand(command(), arguments());
+        if (aliases() != null) cmd.setAliases(aliases());
+        if (description() != null) cmd.setDescription(description());
+        if (usage() != null) cmd.setUsage(usage());
+        if (permissionMessage() != null) cmd.setPermissionMessage(permissionMessage());
         getCommandMap().register(fallbackprefix, cmd);
         cmd.setExecutor(this);
     }
@@ -65,7 +69,7 @@ public abstract class AbstractDuckCommandWithArgs implements CommandExecutor, Ta
 
     private final class ReflectCommand extends Command {
         private AbstractDuckCommandWithArgs exe = null;
-        HashMap<String, DuckArgument> arguments;
+        private HashMap<String, DuckArgument> arguments;
 
         protected ReflectCommand(String command, HashMap<String, DuckArgument> arguments) {
             super(command);

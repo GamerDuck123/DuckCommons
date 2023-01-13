@@ -16,21 +16,15 @@ import java.util.List;
  */
 public class DuckCommandWithArgsHandler {
 
-    public DuckCommandWithArgsHandler(JavaPlugin main, String pluginname, List<Class<?>> classes) {
+    public DuckCommandWithArgsHandler(String pluginname, List<Class<?>> classes) {
         for (Class<?> clazz : classes) {
             if (AbstractDuckCommandWithArgs.class.isAssignableFrom(clazz)) {
-                Annotation[] annons = clazz.getAnnotations();
-                for (Annotation annon : annons) {
-                    if (annon instanceof DuckCommandWithArgs) {
-                        DuckCommandWithArgs myannon = (DuckCommandWithArgs) annon;
-                        try {
-                            AbstractDuckCommandWithArgs cmdclass = (AbstractDuckCommandWithArgs) clazz.getConstructor().newInstance();
-                            cmdclass.register(myannon.command(), myannon.arguments(), myannon.usageARGS(), myannon.description(), "", Arrays.asList(myannon.aliases()), pluginname);
-                        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-                                 | InvocationTargetException | NoSuchMethodException | SecurityException e) {
-                            e.printStackTrace();
-                        }
-                    }
+                try {
+                    AbstractDuckCommandWithArgs cmdclass = (AbstractDuckCommandWithArgs) clazz.getConstructor().newInstance();
+                    cmdclass.register(pluginname);
+                } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+                         | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+                    e.printStackTrace();
                 }
             }
         }
