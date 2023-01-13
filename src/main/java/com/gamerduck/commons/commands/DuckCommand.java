@@ -49,6 +49,7 @@ public abstract class DuckCommand implements IDuckCommand {
         if (description() != null) cmd.setDescription(description());
         if (usage() != null) cmd.setUsage(usage());
         if (permissionMessage() != null) cmd.permissionMessage(permissionMessage());
+        if (permission() != null) cmd.setPermission(permission());
         getCommandMap().register(fallbackprefix, cmd);
         cmd.setExecutor(this);
     }
