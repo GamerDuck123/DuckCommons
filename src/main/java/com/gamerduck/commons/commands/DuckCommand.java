@@ -1,5 +1,6 @@
 package com.gamerduck.commons.commands;
 
+import com.google.common.collect.Lists;
 import org.bukkit.Bukkit;
 import org.bukkit.command.*;
 
@@ -22,7 +23,9 @@ public abstract class DuckCommand implements IDuckCommand {
         return null;
     }
 
-    public abstract List<String> aliases();
+    public List<String> aliases() {
+        return null;
+    };
 
     public abstract String description();
 
