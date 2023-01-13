@@ -9,6 +9,7 @@ import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 
+import static net.kyori.adventure.text.minimessage.MiniMessage.miniMessage;
 import static net.kyori.adventure.text.serializer.gson.GsonComponentSerializer.gson;
 
 /**
@@ -34,7 +35,9 @@ public abstract class DuckCommand implements IDuckCommand {
         return "A command";
     }
 
-    public abstract Component usage();
+    public Component usage() {
+        return miniMessage().deserialize("/" + command());
+    }
 
     public abstract String permission();
 
