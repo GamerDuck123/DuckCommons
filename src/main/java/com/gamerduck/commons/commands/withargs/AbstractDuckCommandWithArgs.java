@@ -9,6 +9,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.bukkit.Bukkit.permissionMessage;
 
@@ -23,7 +24,7 @@ public abstract class AbstractDuckCommandWithArgs implements CommandExecutor, Ta
     protected static CommandMap cmap;
     public abstract String command();
 
-    public abstract HashMap<String, DuckArgument> arguments();
+    public abstract Map<String, DuckArgument> arguments();
 
     public abstract List<String> aliases();
 
@@ -69,9 +70,9 @@ public abstract class AbstractDuckCommandWithArgs implements CommandExecutor, Ta
 
     private final class ReflectCommand extends Command {
         private AbstractDuckCommandWithArgs exe = null;
-        private HashMap<String, DuckArgument> arguments;
+        private Map<String, DuckArgument> arguments;
 
-        protected ReflectCommand(String command, HashMap<String, DuckArgument> arguments) {
+        protected ReflectCommand(String command, Map<String, DuckArgument> arguments) {
             super(command);
             this.arguments = arguments;
         }
