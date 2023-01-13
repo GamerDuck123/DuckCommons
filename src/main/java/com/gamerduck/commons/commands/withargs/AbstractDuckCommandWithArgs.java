@@ -84,7 +84,7 @@ public abstract class AbstractDuckCommandWithArgs implements CommandExecutor, Ta
         @Override
         public boolean execute(CommandSender sender, String commandLabel, String[] args) {
             if (exe != null) {
-                if (args != null) arguments.get(args[0]).run(sender, this, commandLabel, args);
+                if (args != null && args.length > 0 && args[0] != null && !args[0].isEmpty()) arguments.get(args[0]).run(sender, this, commandLabel, args);
                 else return exe.onCommand(sender, this, commandLabel, args);
             }
             return false;
@@ -93,7 +93,7 @@ public abstract class AbstractDuckCommandWithArgs implements CommandExecutor, Ta
         @Override
         public List<String> tabComplete(CommandSender sender, String commandLabel, String[] args) {
             if (exe != null) {
-                if (args != null) arguments.get(args[0]).run(sender, this, commandLabel, args);
+                if (args != null && args.length > 0 && args[0] != null && !args[0].isEmpty()) arguments.get(args[0]).run(sender, this, commandLabel, args);
                 else return exe.onTabComplete(sender, this, commandLabel, args);
             }
             return null;
