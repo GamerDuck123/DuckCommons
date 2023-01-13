@@ -47,8 +47,8 @@ public abstract class DuckCommand implements IDuckCommand {
         ReflectCommand cmd = new ReflectCommand(command(), arguments());
         if (aliases() != null) cmd.setAliases(aliases());
         if (description() != null) cmd.setDescription(description());
-        if (usage() != null) cmd.setUsage(gson().serialize(usage()));
-        if (permissionMessage() != null) cmd.setPermissionMessage(gson().serialize(permissionMessage()));
+        if (usage() != null) cmd.setUsage(usage());
+        if (permissionMessage() != null) cmd.permissionMessage(permissionMessage());
         getCommandMap().register(fallbackprefix, cmd);
         cmd.setExecutor(this);
     }
@@ -79,10 +79,15 @@ public abstract class DuckCommand implements IDuckCommand {
         private DuckCommand exe = null;
         private Map<String, DuckSubCommand> arguments;
 
+        private Component usage;
+
         protected ReflectCommand(String command, Map<String, DuckSubCommand> arguments) {
             super(command);
             this.arguments = arguments;
         }
+
+        public void setUsage(Component component) {this.usage = component;}
+
 
         public void setExecutor(DuckCommand exe) {
             this.exe = exe;
@@ -93,7 +98,7 @@ public abstract class DuckCommand implements IDuckCommand {
             if (exe != null) {
                 if (arguments != null && args != null && args.length > 0 && args[0] != null && !args[0].isEmpty()) {
                     if (!arguments.containsKey(args[0])) {
-                        sender.sendMessage(usage());
+                        sender.sendMessage(usage);
                         return false;
                     } else {
                         DuckSubCommand argument = arguments.get(args[0]);
