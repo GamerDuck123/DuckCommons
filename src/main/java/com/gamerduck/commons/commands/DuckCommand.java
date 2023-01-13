@@ -1,12 +1,15 @@
 package com.gamerduck.commons.commands;
 
 import com.google.common.collect.Lists;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.command.*;
 
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
+
+import static net.kyori.adventure.text.serializer.gson.GsonComponentSerializer.gson;
 
 /**
  * AbstractDuckCommand is meant to be used in place of CommandExecutor and TabExecutor
@@ -31,18 +34,18 @@ public abstract class DuckCommand implements IDuckCommand {
         return "A command";
     }
 
-    public abstract String usage();
+    public abstract Component usage();
 
     public abstract String permission();
 
-    public abstract String permissionMessage();
+    public abstract Component permissionMessage();
 
     public void register(String fallbackprefix) {
         ReflectCommand cmd = new ReflectCommand(command(), arguments());
         if (aliases() != null) cmd.setAliases(aliases());
         if (description() != null) cmd.setDescription(description());
-        if (usage() != null) cmd.setUsage(usage());
-        if (permissionMessage() != null) cmd.setPermissionMessage(permissionMessage());
+        if (usage() != null) cmd.setUsage(gson().serialize(usage()));
+        if (permissionMessage() != null) cmd.setPermissionMessage(gson().serialize(permissionMessage()));
         getCommandMap().register(fallbackprefix, cmd);
         cmd.setExecutor(this);
     }
