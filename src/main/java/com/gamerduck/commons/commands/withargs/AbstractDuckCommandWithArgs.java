@@ -31,7 +31,7 @@ public abstract class AbstractDuckCommandWithArgs implements CommandExecutor, Ta
 
     public abstract String usage();
 
-    public abstract String[] permissions();
+    public abstract String permissions();
 
     public abstract String permissionMessage();
 
