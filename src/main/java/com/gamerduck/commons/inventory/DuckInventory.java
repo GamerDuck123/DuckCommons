@@ -23,6 +23,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Consumer;
 
+import static net.kyori.adventure.text.minimessage.MiniMessage.miniMessage;
 import static org.bukkit.Material.AIR;
 import static org.bukkit.persistence.PersistentDataType.STRING;
 
@@ -31,17 +32,9 @@ public class DuckInventory {
     final HashMap<UUID, DuckButton> buttons = Maps.newHashMap();
     final Plugin plugin;
     private final HashMap<UUID, Player> opened = Maps.newHashMap();
-    private final MiniMessage mm = MiniMessage.miniMessage();
-    Inventory inventory;
+    final Inventory inventory;
     boolean cancelled;
     private Listener listen;
-
-    public DuckInventory(Plugin plugin, int size, String name) {
-        this.plugin = plugin;
-        this.key = new NamespacedKey(plugin, "button");
-        this.inventory = Bukkit.createInventory(null, size, mm.deserialize(name));
-        this.cancelled = true;
-    }
 
     public DuckInventory(Plugin plugin, int size, Component name) {
         this.plugin = plugin;
@@ -49,6 +42,11 @@ public class DuckInventory {
         this.inventory = Bukkit.createInventory(null, size, name);
         this.cancelled = true;
     }
+
+    public DuckInventory(Plugin plugin, int size, String name) {
+        this(plugin, size, miniMessage().deserialize(name));
+    }
+
 
     public Inventory inventory() {
         return inventory;
@@ -218,8 +216,7 @@ public class DuckInventory {
                 if (opened.containsKey(e.getWhoClicked().getUniqueId())) {
                     e.setCancelled(cancelled);
                     if (e.getCurrentItem().getItemMeta().getPersistentDataContainer().has(key, STRING)) {
-                        buttons.get(
-                                        UUID.fromString(e.getCurrentItem().getItemMeta().getPersistentDataContainer().get(key, STRING)))
+                        buttons.get(UUID.fromString(e.getCurrentItem().getItemMeta().getPersistentDataContainer().get(key, STRING)))
                                 .onClick().accept(e);
                     }
                 }
@@ -248,7 +245,7 @@ public class DuckInventory {
         };
         plugin.getServer().getPluginManager().registerEvents(listen, plugin);
     }
-}
 
-record DuckButton(ItemStack item, Consumer<InventoryClickEvent> onClick) {
+    private record DuckButton(ItemStack item, Consumer<InventoryClickEvent> onClick) { }
+
 }
