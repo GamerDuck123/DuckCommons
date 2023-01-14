@@ -12,10 +12,9 @@ public class DuckCommandHandler {
 
     public DuckCommandHandler(String pluginname, List<Class<?>> classes) {
         for (Class<?> clazz : classes) {
-            if (IDuckCommand.class.isAssignableFrom(clazz)) {
+            if (DuckCommand.class.isAssignableFrom(clazz)) {
                 try {
-                    IDuckCommand cmdclass = (IDuckCommand) clazz.getConstructor().newInstance();
-                    cmdclass.register(pluginname);
+                    ((DuckCommand) clazz.getConstructor().newInstance()).register(pluginname);
                 } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
                          | InvocationTargetException | NoSuchMethodException | SecurityException e) {
                     e.printStackTrace();

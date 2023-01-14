@@ -18,7 +18,7 @@ import static net.kyori.adventure.text.serializer.gson.GsonComponentSerializer.g
  *
  * @author GamerDuck123
  */
-public abstract class DuckCommand implements IDuckCommand {
+public abstract class DuckCommand implements CommandExecutor, TabExecutor {
 
     protected static CommandMap cmap;
     public abstract String command();
@@ -45,14 +45,14 @@ public abstract class DuckCommand implements IDuckCommand {
 
     public abstract Component permissionMessage();
 
-    public void register(String fallbackprefix) {
+    public void register(String fallbackPrefix) {
         ReflectCommand cmd = new ReflectCommand(command(), arguments());
         if (aliases() != null) cmd.setAliases(aliases());
         if (description() != null) cmd.setDescription(description());
         if (usage() != null) cmd.setUsage(usage());
         if (permissionMessage() != null) cmd.permissionMessage(permissionMessage());
         if (permission() != null) cmd.setPermission(permission());
-        getCommandMap().register(fallbackprefix, cmd);
+        getCommandMap().register(fallbackPrefix, cmd);
         cmd.setExecutor(this);
     }
 

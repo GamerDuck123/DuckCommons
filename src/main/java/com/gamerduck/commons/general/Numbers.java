@@ -10,10 +10,12 @@ import static com.google.common.base.Strings.repeat;
 
 public class Numbers {
 
-    public final static ArrayList<Integer> numbers = Lists.newArrayListWithCapacity(12);
-    public final static ArrayList<String> letters = Lists.newArrayListWithCapacity(12);
+    public final static ArrayList<Integer> numbers;
+    public final static ArrayList<String> letters;
 
     static {
+        numbers = Lists.newArrayListWithCapacity(12);
+        letters = Lists.newArrayListWithCapacity(12);
         letters.set(0, "M");
         numbers.set(0, 1000);
         letters.set(1, "CM");
