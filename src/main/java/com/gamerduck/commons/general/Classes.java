@@ -59,11 +59,11 @@ public class Classes {
      * @param clazz       The class that they need to extend
      * @return List of all of the classes in the package that extend a certain class
      */
-    public static <T> List<T> getClassesThatExtend(String packageName, ClassLoader loader, Class<T> clazz) {
+    public static <T> List<Class<? extends T>> getClassesThatExtend(String packageName, ClassLoader loader, Class<? extends T> clazz) {
         return getClassesInPackage(packageName, loader).stream().filter(c -> c.isAssignableFrom(clazz))
                 .map(c -> {
                     try {
-                        return (T) c.getDeclaredConstructor().newInstance();
+                        return (Class<? extends T>) c.getDeclaredConstructor().newInstance();
                     } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
                         throw new RuntimeException(e);
                     }
