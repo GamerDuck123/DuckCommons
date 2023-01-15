@@ -60,7 +60,7 @@ public class Classes {
      * @return List of all of the classes in the package that extend a certain class
      */
     public static <T> List<Class<? extends T>> getClassesThatExtend(String packageName, ClassLoader loader, Class<? extends T> clazz) {
-        return getClassesInPackage(packageName, loader).stream().filter(c -> c.isAssignableFrom(clazz))
+        return getClassesInPackage(packageName, loader).stream().filter(c -> c.isInstance(clazz))
                 .map(c -> (Class<? extends T>) c).collect(Collectors.toList());
     }
 
