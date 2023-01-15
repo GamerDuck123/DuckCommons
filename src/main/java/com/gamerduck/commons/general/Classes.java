@@ -61,13 +61,7 @@ public class Classes {
      */
     public static <T> List<Class<? extends T>> getClassesThatExtend(String packageName, ClassLoader loader, Class<? extends T> clazz) {
         return getClassesInPackage(packageName, loader).stream().filter(c -> c.isAssignableFrom(clazz))
-                .map(c -> {
-                    try {
-                        return (Class<? extends T>) c.getDeclaredConstructor().newInstance();
-                    } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-                        throw new RuntimeException(e);
-                    }
-                }).collect(Collectors.toList());
+                .map(c -> (Class<? extends T>) c).collect(Collectors.toList());
     }
 
     /**
