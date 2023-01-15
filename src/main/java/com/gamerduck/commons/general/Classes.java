@@ -5,6 +5,7 @@ import com.google.common.reflect.ClassPath;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -58,8 +59,15 @@ public class Classes {
      * @param clazz       The class that they need to extend
      * @return List of all of the classes in the package that extend a certain class
      */
-    public static List<Class<?>> getClassesThatExtend(String packageName, ClassLoader loader, Class<?> clazz) {
-        return getClassesInPackage(packageName, loader).stream().filter(c -> c.isInstance(clazz)).collect(Collectors.toList());
+    public static <T> List<T> getClassesThatExtend(String packageName, ClassLoader loader, Class<T> clazz) {
+        return getClassesInPackage(packageName, loader).stream().filter(c -> c.isAssignableFrom(clazz))
+                .map(c -> {
+                    try {
+                        return (T) c.getDeclaredConstructor().newInstance();
+                    } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                        throw new RuntimeException(e);
+                    }
+                }).collect(Collectors.toList());
     }
 
     /**
@@ -70,8 +78,15 @@ public class Classes {
      * @param clazz       The class that they need to implement
      * @return List of all of the classes in the package that implement a certain class
      */
-    public static List<Class<?>> getClassesThatImplement(String packageName, ClassLoader loader, Class<?> clazz) {
-        return getClassesInPackage(packageName, loader).stream().filter(c -> c.isAssignableFrom(clazz)).collect(Collectors.toList());
+    public static <T> List<T> getClassesThatImplement(String packageName, ClassLoader loader, Class<T> clazz) {
+        return getClassesInPackage(packageName, loader).stream().filter(c -> c.isAssignableFrom(clazz))
+                .map(c -> {
+                    try {
+                        return (T) c.getDeclaredConstructor().newInstance();
+                    } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                        throw new RuntimeException(e);
+                    }
+                }).collect(Collectors.toList());
     }
 
     /**
