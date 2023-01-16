@@ -15,6 +15,7 @@ import static net.kyori.adventure.text.minimessage.MiniMessage.miniMessage;
 public class Components {
 
     public static final MiniMessage mm = miniMessage();
+
     /**
      * Converts all colorcodes formatted &a into MiniMessage colorcodes
      *
@@ -22,6 +23,7 @@ public class Components {
      * @return The converted string
      */
     private static final Pattern OLD_PATTERN = Pattern.compile("&([A-Na-n\\d])");
+
     /**
      * Converts all hex colorcodes formatted &#FFFFFF into MiniMessage colorcodes
      *

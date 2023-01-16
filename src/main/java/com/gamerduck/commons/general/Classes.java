@@ -5,6 +5,7 @@ import com.google.common.reflect.ClassPath;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -53,17 +54,29 @@ public class Classes {
     /**
      * Find all classes in a package that extend a certain class
      *
+     * @apiNote DOESNT WORK
+     *
      * @param packageName The package path
      * @param loader      The class loader
      * @param clazz       The class that they need to extend
      * @return List of all of the classes in the package that extend a certain class
      */
-    public static List<Class<?>> getClassesThatExtend(String packageName, ClassLoader loader, Class<?> clazz) {
-        return getClassesInPackage(packageName, loader).stream().filter(c -> c.isAssignableFrom(clazz)).collect(Collectors.toList());
+    public static <T> List<T> getClassesThatExtend(String packageName, ClassLoader loader, Class<T> clazz) {
+        return getClassesInPackage(packageName, loader).stream()
+                .filter(c -> c.getTypeName().equalsIgnoreCase(((Type) clazz).getTypeName()))
+                        .map(c -> {
+                            try {
+                                return (T) c.getDeclaredConstructor().newInstance();
+                            } catch (Exception e) {
+                                throw new RuntimeException();
+                            }
+                        }).collect(Collectors.toList());
     }
 
     /**
      * Find all classes in a package that implement a certain class
+     *
+     * @apiNote DOESNT WORK
      *
      * @param packageName The package path
      * @param loader      The class loader
