@@ -12,6 +12,8 @@ public abstract class DuckSubCommand {
 
     public Component permissionMessage() {return Component.empty();}
 
+    public Component usage() {return Component.empty();}
+
     public abstract boolean run(CommandSender sender, Command cmd, String label, String[] args);
 
     public List<String> tab(CommandSender sender, Command cmd, String label, String[] args) {return null;}
