@@ -61,12 +61,9 @@ public class Classes {
      * @param clazz       The class that they need to extend
      * @return List of all of the classes in the package that extend a certain class
      */
-    public static <T> List<Class<T>> getClassesThatExtend(String packageName, ClassLoader loader, Class<T> clazz) {
+    public static <T> List<Class<?>> getClassesThatExtend(String packageName, ClassLoader loader, Class<T> clazz) {
         return getClassesInPackage(packageName, loader).stream()
-                .filter(c -> c.getTypeName().equalsIgnoreCase(((Type) clazz).getTypeName()))
-                        .map(c -> {
-                            return (Class<T>) c;
-                        }).collect(Collectors.toList());
+                .filter(c -> c.getTypeName().equalsIgnoreCase(((Type) clazz).getTypeName())).collect(Collectors.toList());
     }
 
     /**
