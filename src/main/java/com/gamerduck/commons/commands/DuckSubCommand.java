@@ -9,6 +9,7 @@ import java.util.List;
 public abstract class DuckSubCommand {
 
     public abstract String permission();
+
     public abstract Component permissionMessage();
 
     public abstract boolean run(CommandSender sender, Command cmd, String label, String[] args);

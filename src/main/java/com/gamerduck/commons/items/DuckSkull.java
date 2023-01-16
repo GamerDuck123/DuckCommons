@@ -25,6 +25,7 @@ import java.util.UUID;
 public class DuckSkull extends ItemStack {
     private Method metaSetProfileMethod;
     private Field metaProfileField;
+
     public DuckSkull() {
         super(Material.PLAYER_HEAD, 1);
     }

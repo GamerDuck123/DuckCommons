@@ -9,4 +9,5 @@ import java.lang.annotation.RetentionPolicy;
  * @author GamerDuck123
  */
 @Retention(RetentionPolicy.RUNTIME)
-public @interface DuckCommandIdentifier { }
+public @interface DuckCommandIdentifier {
+}

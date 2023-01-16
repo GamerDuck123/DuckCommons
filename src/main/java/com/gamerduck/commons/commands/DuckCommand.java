@@ -1,6 +1,5 @@
 package com.gamerduck.commons.commands;
 
-import com.google.common.collect.Lists;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.command.*;
@@ -10,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import static net.kyori.adventure.text.minimessage.MiniMessage.miniMessage;
-import static net.kyori.adventure.text.serializer.gson.GsonComponentSerializer.gson;
 
 /**
  * AbstractDuckCommand is meant to be used in place of CommandExecutor and TabExecutor
@@ -21,6 +19,7 @@ import static net.kyori.adventure.text.serializer.gson.GsonComponentSerializer.g
 public abstract class DuckCommand implements CommandExecutor, TabExecutor {
 
     protected static CommandMap cmap;
+
     public abstract String command();
 
     public Map<String, DuckSubCommand> arguments() {
@@ -29,7 +28,7 @@ public abstract class DuckCommand implements CommandExecutor, TabExecutor {
 
     public List<String> aliases() {
         return null;
-    };
+    }
 
     public String description() {
         return "A command";
@@ -43,7 +42,7 @@ public abstract class DuckCommand implements CommandExecutor, TabExecutor {
         return null;
     }
 
-    public abstract Component permissionMessage();
+    public Component permissionMessage() {return Component.empty();}
 
     public void register(String fallbackPrefix) {
         ReflectCommand cmd = new ReflectCommand(command(), arguments());
@@ -89,7 +88,9 @@ public abstract class DuckCommand implements CommandExecutor, TabExecutor {
             this.arguments = arguments;
         }
 
-        public void setUsage(Component component) {this.usage = component;}
+        public void setUsage(Component component) {
+            this.usage = component;
+        }
 
 
         public void setExecutor(DuckCommand exe) {

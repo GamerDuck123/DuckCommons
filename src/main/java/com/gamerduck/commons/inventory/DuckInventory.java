@@ -2,7 +2,6 @@ package com.gamerduck.commons.inventory;
 
 import com.google.common.collect.Maps;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -31,8 +30,8 @@ public class DuckInventory {
     final NamespacedKey key;
     final HashMap<UUID, DuckButton> buttons = Maps.newHashMap();
     final Plugin plugin;
-    private final HashMap<UUID, Player> opened = Maps.newHashMap();
     final Inventory inventory;
+    private final HashMap<UUID, Player> opened = Maps.newHashMap();
     boolean cancelled;
     private Listener listen;
 
@@ -246,6 +245,7 @@ public class DuckInventory {
         plugin.getServer().getPluginManager().registerEvents(listen, plugin);
     }
 
-    private record DuckButton(ItemStack item, Consumer<InventoryClickEvent> onClick) { }
+    private record DuckButton(ItemStack item, Consumer<InventoryClickEvent> onClick) {
+    }
 
 }
