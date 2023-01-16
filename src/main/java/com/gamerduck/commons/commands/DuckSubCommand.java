@@ -8,12 +8,12 @@ import java.util.List;
 
 public abstract class DuckSubCommand {
 
-    public abstract String permission();
+    public String permission() {return null;}
 
-    public abstract Component permissionMessage();
+    public Component permissionMessage() {return Component.empty();}
 
     public abstract boolean run(CommandSender sender, Command cmd, String label, String[] args);
 
-    public abstract List<String> tab(CommandSender sender, Command cmd, String label, String[] args);
+    public List<String> tab(CommandSender sender, Command cmd, String label, String[] args) {return null;}
 
 }
