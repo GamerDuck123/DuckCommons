@@ -97,7 +97,6 @@ public abstract class DuckCommand implements CommandExecutor, TabExecutor {
             this.exe = exe;
         }
 
-
         @Override
         public boolean execute(CommandSender sender, String commandLabel, String[] args) {
             if (exe != null) {
@@ -107,10 +106,10 @@ public abstract class DuckCommand implements CommandExecutor, TabExecutor {
                         return false;
                     } else {
                         DuckSubCommand argument = arguments.get(args[0]);
-                        if (!sender.hasPermission(argument.permission()) || !testPermissionSilent(sender)) {
+                        if (!sender.hasPermission(argument.permission())) {
                             sender.sendMessage(argument.permissionMessage());
                             return false;
-                        } else return arguments.get(args[0]).run(sender, this, commandLabel, args);
+                        } else return argument.run(sender, this, commandLabel, args);
                     }
                 } else return testPermission(sender) ? false : exe.onCommand(sender, this, commandLabel, args);
             }
@@ -123,12 +122,10 @@ public abstract class DuckCommand implements CommandExecutor, TabExecutor {
                 if (arguments != null && args != null && args.length > 1 && args[0] != null && !args[0].isEmpty()) {
                     if (!arguments.containsKey(args[0])) {
                         return exe.onTabComplete(sender, this, commandLabel, args);
-                    } else return arguments.get(args[0]).tab(sender, this, commandLabel, args);
-                } else {
-                    if (permission() != null && !sender.hasPermission(permission())) {
-                        return null;
-                    } else return exe.onTabComplete(sender, this, commandLabel, args);
-                }
+                    } else return sender.hasPermission(arguments.get(args[0]).permission()) ?
+                                arguments.get(args[0]).tab(sender, this, commandLabel, args) : null;
+                } else return testPermissionSilent(sender) ?
+                            exe.onTabComplete(sender, this, commandLabel, args) : null;
             }
             return null;
         }
