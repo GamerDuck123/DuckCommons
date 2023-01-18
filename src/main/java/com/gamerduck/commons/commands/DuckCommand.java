@@ -111,7 +111,7 @@ public abstract class DuckCommand implements CommandExecutor, TabExecutor {
                             return false;
                         } else return argument.run(sender, this, commandLabel, args);
                     }
-                } else return testPermission(sender) ? false : exe.onCommand(sender, this, commandLabel, args);
+                } else return testPermission(sender) ? exe.onCommand(sender, this, commandLabel, args) : false;
             }
             return false;
         }
