@@ -51,24 +51,24 @@ public abstract class DuckCommand implements CommandExecutor, TabExecutor {
         if (usage() != null) cmd.setUsage(usage());
         if (permissionMessage() != null) cmd.permissionMessage(permissionMessage());
         if (permission() != null) cmd.setPermission(permission());
-        getCommandMap().register(fallbackPrefix, cmd);
+        Bukkit.getServer().getCommandMap().register(fallbackPrefix, cmd);
         cmd.setExecutor(this);
     }
 
     final CommandMap getCommandMap() {
-        if (cmap == null) {
-            try {
-                final Field f = Bukkit.getServer().getClass().getDeclaredField("commandMap");
-                f.setAccessible(true);
-                cmap = (CommandMap) f.get(Bukkit.getServer());
-                return getCommandMap();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else if (cmap != null) {
-            return cmap;
-        }
-        return getCommandMap();
+//        if (cmap == null) {
+//            try {
+//                final Field f = Bukkit.getServer().getClass().getDeclaredField("commandMap");
+//                f.setAccessible(true);
+//                cmap = (CommandMap) f.get(Bukkit.getServer());
+//                return getCommandMap();
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        } else if (cmap != null) {
+//            return cmap;
+//        }
+        return cmap = Bukkit.getServer().getCommandMap();
     }
 
     public abstract boolean onCommand(CommandSender sender, Command cmd, String label, String[] args);
@@ -106,17 +106,12 @@ public abstract class DuckCommand implements CommandExecutor, TabExecutor {
                         return false;
                     } else {
                         DuckSubCommand argument = arguments.get(args[0]);
-                        if (!sender.hasPermission(argument.permission())) {
+                        if (!sender.hasPermission(argument.permission()) || !testPermissionSilent(sender)) {
                             sender.sendMessage(argument.permissionMessage());
                             return false;
                         } else return arguments.get(args[0]).run(sender, this, commandLabel, args);
                     }
-                } else {
-                    if (permission() != null && !sender.hasPermission(permission())) {
-                        sender.sendMessage(permissionMessage());
-                        return false;
-                    } else return exe.onCommand(sender, this, commandLabel, args);
-                }
+                } else return testPermission(sender) ? false : exe.onCommand(sender, this, commandLabel, args);
             }
             return false;
         }
@@ -125,13 +120,14 @@ public abstract class DuckCommand implements CommandExecutor, TabExecutor {
         public List<String> tabComplete(CommandSender sender, String commandLabel, String[] args) {
             if (exe != null) {
                 if (arguments != null && args != null && args.length > 1 && args[0] != null && !args[0].isEmpty()) {
-                    if (!arguments.containsKey(args[0])) {
-                        return exe.onTabComplete(sender, this, commandLabel, args);
-                    } else return arguments.get(args[0]).tab(sender, this, commandLabel, args);
+                    if (!arguments.containsKey(args[0])) return exe.onTabComplete(sender, this, commandLabel, args);
+                    else {
+                        if (!sender.hasPermission(arguments.get(args[0]).permission()) || !testPermissionSilent(sender)) return null;
+                        else return arguments.get(args[0]).tab(sender, this, commandLabel, args);
+                    }
                 } else {
-                    if (permission() != null && !sender.hasPermission(permission())) {
-                        return null;
-                    } else return exe.onTabComplete(sender, this, commandLabel, args);
+                    if (!testPermissionSilent(sender)) return null;
+                    else return exe.onTabComplete(sender, this, commandLabel, args);
                 }
             }
             return null;
