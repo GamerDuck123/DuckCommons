@@ -14,7 +14,7 @@ public class DuckCommandHandler {
         for (Class<?> clazz : classes) {
             if (DuckCommand.class.isAssignableFrom(clazz)) {
                 try {
-                    ((DuckCommand) clazz.getConstructor().newInstance()).register(pluginname);
+                    clazz.getConstructor().newInstance();
                 } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
                          | InvocationTargetException | NoSuchMethodException | SecurityException e) {
                     e.printStackTrace();
