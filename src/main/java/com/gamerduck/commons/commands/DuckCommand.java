@@ -44,19 +44,17 @@ public abstract class DuckCommand implements CommandExecutor, TabExecutor {
 
     public Component permissionMessage() {return Component.empty();}
 
-    public DuckCommand(String fallbackPrefix) {
+    public String fallbackPrefix() {return "";}
+
+    public DuckCommand() {
         ReflectCommand cmd = new ReflectCommand(command(), arguments());
         if (aliases() != null) cmd.setAliases(aliases());
         if (description() != null) cmd.setDescription(description());
         if (usage() != null) cmd.setUsage(usage());
         if (permissionMessage() != null) cmd.permissionMessage(permissionMessage());
         if (permission() != null) cmd.setPermission(permission());
-        Bukkit.getServer().getCommandMap().register(fallbackPrefix, cmd);
+        Bukkit.getServer().getCommandMap().register(fallbackPrefix(), cmd);
         cmd.setExecutor(this);
-    }
-
-    public DuckCommand() {
-        this("");
     }
 
 //    public void register(String fallbackPrefix) {
