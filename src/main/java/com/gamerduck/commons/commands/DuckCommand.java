@@ -4,7 +4,6 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.command.*;
 
-import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 
@@ -20,30 +19,73 @@ public abstract class DuckCommand implements CommandExecutor, TabExecutor {
 
     protected static CommandMap cmap;
 
+    /**
+     * String for the command
+     *
+     * @return
+     */
     public abstract String command();
 
+
+    /**
+     * Map for all of the separate class arguments
+     *
+     * @return
+     */
     public Map<String, DuckSubCommand> arguments() {
         return null;
     }
 
+    /**
+     * A list of the aliases for this command
+     *
+     * @return
+     */
     public List<String> aliases() {
         return null;
     }
 
+    /**
+     * The description of the command, helpful for auto generated /help commands
+     *
+     * @return The description
+     */
     public String description() {
         return "A command";
     }
 
+    /**
+     * Kinda useless outside of the class as it makes the player see the command as non-existent
+     *
+     * @return The message if the command is imporperly used
+     */
     public Component usage() {
         return miniMessage().deserialize("/" + command());
     }
 
+    /**
+     * The permission for this command
+     * if the player doesn't have this permission the command won't show for them.
+     *
+     * @return The permission string
+     */
     public String permission() {
         return null;
     }
 
+    /**
+     * Kinda useless as it makes the player see the command as non-existent
+     *
+     * @return The permission message for the command
+     */
     public Component permissionMessage() {return Component.empty();}
 
+    /**
+     * If this is set then the command can be used as /fallbackPrefix:command
+     * otherwise the only option will be /command
+     *
+     * @return
+     */
     public String fallbackPrefix() {return "";}
 
     public DuckCommand() {
@@ -55,33 +97,6 @@ public abstract class DuckCommand implements CommandExecutor, TabExecutor {
         if (permission() != null) cmd.setPermission(permission());
         Bukkit.getServer().getCommandMap().register(fallbackPrefix(), cmd);
         cmd.setExecutor(this);
-    }
-
-//    public void register(String fallbackPrefix) {
-//        ReflectCommand cmd = new ReflectCommand(command(), arguments());
-//        if (aliases() != null) cmd.setAliases(aliases());
-//        if (description() != null) cmd.setDescription(description());
-//        if (usage() != null) cmd.setUsage(usage());
-//        if (permissionMessage() != null) cmd.permissionMessage(permissionMessage());
-//        if (permission() != null) cmd.setPermission(permission());
-//        Bukkit.getServer().getCommandMap().register(fallbackPrefix, cmd);
-//        cmd.setExecutor(this);
-//    }
-
-    final CommandMap getCommandMap() {
-        if (cmap == null) {
-            try {
-                final Field f = Bukkit.getServer().getClass().getDeclaredField("commandMap");
-                f.setAccessible(true);
-                cmap = (CommandMap) f.get(Bukkit.getServer());
-                return getCommandMap();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else if (cmap != null) {
-            return cmap;
-        }
-        return getCommandMap();
     }
 
     public abstract boolean onCommand(CommandSender sender, Command cmd, String label, String[] args);
