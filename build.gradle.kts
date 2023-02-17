@@ -26,6 +26,7 @@ dependencies {
     compileOnly("io.papermc.paper:paper-api:1.19.1-R0.1-SNAPSHOT")
     compileOnly("com.mojang:authlib:1.5.21")
     compileOnly("com.googlecode.json-simple:json-simple:1.1.1")
+    compileOnly("io.netty:netty-all:4.1.68.Final")
 }
 
 group = "com.gamerduck.commons"

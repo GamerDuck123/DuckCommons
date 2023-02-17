@@ -1,8 +1,8 @@
 package com.gamerduck.commons.packets;
 
 
-import com.desticube.core.api.packets.Reflection.FieldAccessor;
-import com.desticube.core.api.packets.Reflection.MethodInvoker;
+import com.gamerduck.commons.packets.Reflection.FieldAccessor;
+import com.gamerduck.commons.packets.Reflection.MethodInvoker;
 import com.google.common.collect.MapMaker;
 import com.mojang.authlib.GameProfile;
 import io.netty.channel.*;
