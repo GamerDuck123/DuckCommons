@@ -2,6 +2,7 @@ package com.gamerduck.commons.events.extra.enhancers;
 
 import com.destroystokyo.paper.event.player.PlayerArmorChangeEvent;
 import com.destroystokyo.paper.event.player.PlayerArmorChangeEvent.SlotType;
+import com.gamerduck.commons.consumers.QuadConsumer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
