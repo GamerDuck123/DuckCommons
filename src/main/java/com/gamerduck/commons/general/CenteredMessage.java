@@ -1,7 +1,10 @@
 package com.gamerduck.commons.general;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import org.bukkit.ChatColor;
+
+import static net.kyori.adventure.text.serializer.gson.GsonComponentSerializer.gson;
 
 /**
  * @param str The string to center
@@ -10,7 +13,6 @@ import org.bukkit.ChatColor;
  * https://www.spigotmc.org/threads/free-code-sending-perfectly-centered-chat-message.95872/
  * @return The string, but centered
  */
-@Deprecated
 public final class CenteredMessage {
 
     private final static int CENTER_PX = 154;
@@ -24,7 +26,7 @@ public final class CenteredMessage {
         boolean isBold = false;
 
         for (char c : message.toCharArray()) {
-            if (c == '�') {
+            if (c == '§') {
                 previousCode = true;
             } else if (previousCode) {
                 previousCode = false;
@@ -48,9 +50,9 @@ public final class CenteredMessage {
         return sb.toString() + message;
     }
 
-    public static Component generate(Component message) {
-        if (message == null) return message;
-        return message;
+    public static Component generate(Component msg) {
+        if (msg == null) return msg;
+        else return gson().deserialize(generate(gson().serialize(msg)));
     }
 
     private enum DefaultFontSize {
