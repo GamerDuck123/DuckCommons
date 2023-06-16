@@ -22,6 +22,7 @@ repositories {
     }
 }
 
+
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.19.1-R0.1-SNAPSHOT")
     compileOnly("com.mojang:authlib:1.5.21")

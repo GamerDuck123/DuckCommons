@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
@@ -16,8 +17,10 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Consumer;
@@ -26,7 +29,7 @@ import static net.kyori.adventure.text.minimessage.MiniMessage.miniMessage;
 import static org.bukkit.Material.AIR;
 import static org.bukkit.persistence.PersistentDataType.STRING;
 
-public class DuckInventory {
+public class DuckInventory implements ConfigurationSerializable {
     final NamespacedKey key;
     final HashMap<UUID, DuckButton> buttons = Maps.newHashMap();
     final Plugin plugin;
@@ -243,6 +246,11 @@ public class DuckInventory {
             }
         };
         plugin.getServer().getPluginManager().registerEvents(listen, plugin);
+    }
+
+    @Override
+    public @NotNull Map<String, Object> serialize() {
+        return null;
     }
 
     private record DuckButton(ItemStack item, Consumer<InventoryClickEvent> onClick) {
