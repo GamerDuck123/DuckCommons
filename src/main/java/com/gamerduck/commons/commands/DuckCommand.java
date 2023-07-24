@@ -15,7 +15,7 @@ import static net.kyori.adventure.text.minimessage.MiniMessage.miniMessage;
  *
  * @author GamerDuck123
  */
-public abstract class DuckCommand implements CommandExecutor, TabExecutor {
+public abstract class DuckCommand {
 
     protected static CommandMap cmap;
 
@@ -95,8 +95,8 @@ public abstract class DuckCommand implements CommandExecutor, TabExecutor {
         if (usage() != null) cmd.setUsage(usage());
         if (permissionMessage() != null) cmd.permissionMessage(permissionMessage());
         if (permission() != null) cmd.setPermission(permission());
-        Bukkit.getServer().getCommandMap().register(fallbackPrefix(), cmd);
         cmd.setExecutor(this);
+        Bukkit.getServer().getCommandMap().register(fallbackPrefix(), cmd);
     }
 
     public abstract boolean onCommand(CommandSender sender, Command cmd, String label, String[] args);
@@ -151,9 +151,9 @@ public abstract class DuckCommand implements CommandExecutor, TabExecutor {
                     if (!arguments.containsKey(args[0])) {
                         return exe.onTabComplete(sender, this, commandLabel, args);
                     } else return sender.hasPermission(arguments.get(args[0]).permission()) ?
-                                arguments.get(args[0]).tab(sender, this, commandLabel, args) : null;
+                            arguments.get(args[0]).tab(sender, this, commandLabel, args) : null;
                 } else return testPermissionSilent(sender) ?
-                            exe.onTabComplete(sender, this, commandLabel, args) : null;
+                        exe.onTabComplete(sender, this, commandLabel, args) : null;
             }
             return null;
         }

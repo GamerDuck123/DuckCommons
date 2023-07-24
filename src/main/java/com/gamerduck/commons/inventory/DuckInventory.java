@@ -29,20 +29,20 @@ import static net.kyori.adventure.text.minimessage.MiniMessage.miniMessage;
 import static org.bukkit.Material.AIR;
 import static org.bukkit.persistence.PersistentDataType.STRING;
 
-public class DuckInventory implements ConfigurationSerializable {
+public class DuckInventory implements ConfigurationSerializable, Listener {
     final NamespacedKey key;
     final HashMap<UUID, DuckButton> buttons = Maps.newHashMap();
     final Plugin plugin;
     final Inventory inventory;
     private final HashMap<UUID, Player> opened = Maps.newHashMap();
     boolean cancelled;
-    private Listener listen;
 
     public DuckInventory(Plugin plugin, int size, Component name) {
         this.plugin = plugin;
         this.key = new NamespacedKey(plugin, "button");
         this.inventory = Bukkit.createInventory(null, size, name);
         this.cancelled = true;
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
     public DuckInventory(Plugin plugin, int size, String name) {
@@ -200,53 +200,41 @@ public class DuckInventory implements ConfigurationSerializable {
 
     public DuckInventory open(Player player) {
         player.openInventory(inventory);
-        startListener(player);
         return this;
     }
 
-    private void startListener(Player player) {
-        if (opened.size() != 0) return;
-        opened.put(player.getUniqueId(), player);
-        listen = new Listener() {
-            public void unregister() {
-                HandlerList.unregisterAll(this);
-            }
-
-            @EventHandler
-            public void onClick(InventoryClickEvent e) {
-                if (e.getCurrentItem() == null || e.getCurrentItem().getType() == AIR) return;
-                if (opened.containsKey(e.getWhoClicked().getUniqueId())) {
-                    e.setCancelled(cancelled);
-                    if (e.getCurrentItem().getItemMeta().getPersistentDataContainer().has(key, STRING)) {
-                        buttons.get(UUID.fromString(e.getCurrentItem().getItemMeta().getPersistentDataContainer().get(key, STRING)))
-                                .onClick().accept(e);
-                    }
+    @EventHandler
+    public void onClick(InventoryClickEvent e) {
+        if (e.getClickedInventory() != null && e.getClickedInventory() == inventory) {
+            e.setCancelled(cancelled);
+            if (e.getCurrentItem() == null || e.getCurrentItem().getType() == AIR) return;
+            if (opened.containsKey(e.getWhoClicked().getUniqueId())) {
+                if (e.getCurrentItem().getItemMeta().getPersistentDataContainer().has(key, STRING)) {
+                    buttons.get(UUID.fromString(e.getCurrentItem().getItemMeta().getPersistentDataContainer().get(key, STRING)))
+                            .onClick().accept(e);
                 }
             }
-
-            @EventHandler
-            public void onClose(InventoryCloseEvent e) {
-                if (!opened.containsKey(e.getPlayer().getUniqueId())) return;
-                opened.remove(e.getPlayer().getUniqueId());
-                if (opened.size() == 0) unregister();
-            }
-
-            @EventHandler
-            public void onClose(PlayerQuitEvent e) {
-                if (!opened.containsKey(e.getPlayer().getUniqueId())) return;
-                opened.remove(e.getPlayer().getUniqueId());
-                if (opened.size() == 0) unregister();
-            }
-
-            @EventHandler
-            public void onClose(PlayerKickEvent e) {
-                if (!opened.containsKey(e.getPlayer().getUniqueId())) return;
-                opened.remove(e.getPlayer().getUniqueId());
-                if (opened.size() == 0) unregister();
-            }
-        };
-        plugin.getServer().getPluginManager().registerEvents(listen, plugin);
+        }
     }
+
+    @EventHandler
+    public void onClose(InventoryCloseEvent e) {
+        if (!opened.containsKey(e.getPlayer().getUniqueId())) return;
+        opened.remove(e.getPlayer().getUniqueId());
+    }
+
+    @EventHandler
+    public void onClose(PlayerQuitEvent e) {
+        if (!opened.containsKey(e.getPlayer().getUniqueId())) return;
+        opened.remove(e.getPlayer().getUniqueId());
+    }
+
+    @EventHandler
+    public void onClose(PlayerKickEvent e) {
+        if (!opened.containsKey(e.getPlayer().getUniqueId())) return;
+        opened.remove(e.getPlayer().getUniqueId());
+    }
+
 
     @Override
     public @NotNull Map<String, Object> serialize() {
