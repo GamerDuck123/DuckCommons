@@ -205,7 +205,7 @@ public class DuckInventory implements ConfigurationSerializable, Listener {
 
     @EventHandler
     public void onClick(InventoryClickEvent e) {
-        if (e.getClickedInventory() != null && e.getClickedInventory().getViewers() == inventory.getViewers()) {
+        if (e.getClickedInventory() != null && e.getView().getTopInventory().equals(inventory)) {
             e.setCancelled(cancelled);
             if (e.getCurrentItem() == null || e.getCurrentItem().getType() == AIR) return;
             if (opened.containsKey(e.getWhoClicked().getUniqueId())) {
