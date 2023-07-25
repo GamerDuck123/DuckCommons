@@ -48,7 +48,9 @@ public class DuckInventory implements ConfigurationSerializable, Listener {
         this.plugin = plugin;
         this.key = new NamespacedKey(plugin, "button");
         this.type = type;
-        this.inventory = Bukkit.createInventory(null, inventorySize = size, inventoryName = name);
+        this.inventoryName = name;
+        this.inventorySize = size;
+        this.inventory = Bukkit.createInventory(null, size, name);
         this.cancelled = true;
         if (type == STATIC) {
             dynamicButtons = null;
@@ -287,30 +289,17 @@ public class DuckInventory implements ConfigurationSerializable, Listener {
         return null;
     }
 
-    private class DuckButton implements Delayed {
+    private class DuckButton {
 
         private final ItemStack item;
         public ItemStack item() {return item;}
         private final Consumer<InventoryClickEvent> onClick;
         public Consumer<InventoryClickEvent> onClick() {return onClick;}
-        private final long expiryTime;
         public DuckButton(ItemStack item, Consumer<InventoryClickEvent> onClick) {
             this.item = item;
             this.onClick = onClick;
-
-            this.expiryTime = System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(5);
         }
 
-        @Override
-        public long getDelay(@NotNull TimeUnit unit) {
-            long diff = expiryTime - System.currentTimeMillis();
-            return unit.convert(diff, TimeUnit.MILLISECONDS);
-        }
-
-        @Override
-        public int compareTo(@NotNull Delayed o) {
-            return 0;
-        }
     }
 
     /**
