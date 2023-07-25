@@ -1,5 +1,7 @@
 package com.gamerduck.commons.inventory;
 
+import com.gamerduck.commons.general.ExpiringList;
+import com.gamerduck.commons.general.ExpiringMap;
 import com.google.common.collect.Maps;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -9,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerKickEvent;
@@ -19,12 +22,12 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.concurrent.Delayed;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
+import static com.gamerduck.commons.inventory.DuckInventory.Type.STATIC;
 import static net.kyori.adventure.text.minimessage.MiniMessage.miniMessage;
 import static org.bukkit.Material.AIR;
 import static org.bukkit.persistence.PersistentDataType.STRING;
@@ -32,21 +35,43 @@ import static org.bukkit.persistence.PersistentDataType.STRING;
 public class DuckInventory implements ConfigurationSerializable, Listener {
     final NamespacedKey key;
     final HashMap<UUID, DuckButton> buttons = Maps.newHashMap();
+    final ExpiringMap<UUID, DuckButton> dynamicButtons;
     final Plugin plugin;
     final Inventory inventory;
-    private final HashMap<UUID, Player> opened = Maps.newHashMap();
     boolean cancelled;
+    final Type type;
+    final Component inventoryName;
+    final int inventorySize;
+    private final ExpiringList<DuckButton> buttonsToClear = new ExpiringList<DuckButton>();
 
-    public DuckInventory(Plugin plugin, int size, Component name) {
+    public DuckInventory(Plugin plugin, Type type, int size, Component name) {
         this.plugin = plugin;
         this.key = new NamespacedKey(plugin, "button");
-        this.inventory = Bukkit.createInventory(null, size, name);
+        this.type = type;
+        this.inventory = Bukkit.createInventory(null, inventorySize = size, inventoryName = name);
         this.cancelled = true;
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        if (type == STATIC) {
+            dynamicButtons = null;
+            plugin.getServer().getPluginManager().registerEvents(new Listener() {
+                @EventHandler
+                public void onClick(InventoryClickEvent e) {
+                    if (e.getClickedInventory() != null && inventory != null && e.getClickedInventory().equals(inventory)) {
+                        e.setCancelled(cancelled);
+                        if (e.getCurrentItem() == null || e.getCurrentItem().getType() == AIR) return;
+                        if (e.getCurrentItem().getItemMeta().getPersistentDataContainer().has(key, STRING)) {
+                            buttons.get(UUID.fromString(e.getCurrentItem().getItemMeta().getPersistentDataContainer().get(key, STRING)))
+                                    .onClick().accept(e);
+                        }
+                    }
+                }
+            }, plugin);
+        } else {
+            dynamicButtons = new ExpiringMap<>(TimeUnit.MINUTES.toSeconds(2), plugin);
+        }
     }
 
-    public DuckInventory(Plugin plugin, int size, String name) {
-        this(plugin, size, miniMessage().deserialize(name));
+    public DuckInventory(Plugin plugin, Type type, int size, String name) {
+        this(plugin, type, size, miniMessage().deserialize(name));
     }
 
 
@@ -59,15 +84,15 @@ public class DuckInventory implements ConfigurationSerializable, Listener {
         return this;
     }
 
-    public void updateAll() throws PlayerDoesNotHaveInventoryOpenException {
-        for (Player p : opened.values()) update(p);
-    }
-
-    public void update(Player p) throws PlayerDoesNotHaveInventoryOpenException {
-        Optional<Player> pl = opened.values().stream().filter(temp -> temp.getUniqueId() == p.getUniqueId()).findFirst();
-        if (pl.isEmpty() || pl == null) throw new PlayerDoesNotHaveInventoryOpenException();
-        else pl.get().updateInventory();
-    }
+//    public void updateAll() throws PlayerDoesNotHaveInventoryOpenException {
+//        for (Player p : openedInstance.values()) update(p);
+//    }
+//
+//    public void update(Player p) throws PlayerDoesNotHaveInventoryOpenException {
+//        Optional<Player> pl = openedInstance.values().stream().filter(temp -> temp.getUniqueId() == p.getUniqueId()).findFirst();
+//        if (pl.isEmpty() || pl == null) throw new PlayerDoesNotHaveInventoryOpenException();
+//        else pl.get().updateInventory();
+//    }
 
     public DuckInventory removeItem(int slot) {
         ItemStack item = inventory.getItem(slot);
@@ -138,7 +163,8 @@ public class DuckInventory implements ConfigurationSerializable, Listener {
         ItemMeta meta = item.getItemMeta();
         meta.getPersistentDataContainer().set(key, STRING, randomUUID.toString());
         item.setItemMeta(meta);
-        buttons.put(randomUUID, new DuckButton(item, onClick));
+        if (type == Type.DYNAMIC) dynamicButtons.put(randomUUID, new DuckButton(item, onClick));
+        else if (type == Type.STATIC) buttons.put(randomUUID, new DuckButton(item, onClick));
         inventory.addItem(item);
         return this;
     }
@@ -148,7 +174,9 @@ public class DuckInventory implements ConfigurationSerializable, Listener {
         ItemMeta meta = item.getItemMeta();
         meta.getPersistentDataContainer().set(key, STRING, randomUUID.toString());
         item.setItemMeta(meta);
-        buttons.put(randomUUID, new DuckButton(item, onClick));
+        if (type == Type.DYNAMIC) dynamicButtons.put(randomUUID, new DuckButton(item, onClick));
+        else if (type == Type.STATIC) buttons.put(randomUUID, new DuckButton(item, onClick));
+
         inventory.setItem(slot, item);
         return this;
     }
@@ -199,49 +227,101 @@ public class DuckInventory implements ConfigurationSerializable, Listener {
 
 
     public DuckInventory open(Player player) {
-        player.openInventory(inventory);
+        if (type == STATIC) player.openInventory(inventory);
+        else if (type == Type.DYNAMIC) {
+            Inventory cloned = Bukkit.createInventory(player, inventorySize, inventoryName);
+            cloned.setContents(inventory.getContents().clone());
+            startDynamicListener(player, cloned);
+        }
         return this;
     }
 
-    @EventHandler
-    public void onClick(InventoryClickEvent e) {
-        if (e.getClickedInventory() != null && e.getView().getTopInventory().equals(inventory)) {
-            e.setCancelled(cancelled);
-            if (e.getCurrentItem() == null || e.getCurrentItem().getType() == AIR) return;
-            if (opened.containsKey(e.getWhoClicked().getUniqueId())) {
-                if (e.getCurrentItem().getItemMeta().getPersistentDataContainer().has(key, STRING)) {
-                    buttons.get(UUID.fromString(e.getCurrentItem().getItemMeta().getPersistentDataContainer().get(key, STRING)))
-                            .onClick().accept(e);
+    private void startDynamicListener(Player player, Inventory cloned) {
+        plugin.getServer().getPluginManager().registerEvents(new Listener() {
+            @EventHandler
+            public void onClick(InventoryClickEvent e) {
+                if (!e.getWhoClicked().getUniqueId().equals(player.getUniqueId())
+                        || e.getCurrentItem() == null || e.getCurrentItem().getType() == AIR
+                        || e.getClickedInventory() == null && cloned == null) return;
+                if (e.getClickedInventory().equals(cloned)) {
+                    e.setCancelled(cancelled);
+                    if (e.getCurrentItem().getItemMeta().getPersistentDataContainer().has(key, STRING)) {
+                        dynamicButtons.get(UUID.fromString(e.getCurrentItem().getItemMeta().getPersistentDataContainer().get(key, STRING)))
+                                .onClick().accept(e);
+                    }
+                } else {
+                    e.setCancelled(cancelled);
+                    unregister();
+                    e.getWhoClicked().closeInventory(InventoryCloseEvent.Reason.CANT_USE);
                 }
             }
-        }
-    }
 
-    @EventHandler
-    public void onClose(InventoryCloseEvent e) {
-        if (!opened.containsKey(e.getPlayer().getUniqueId())) return;
-        opened.remove(e.getPlayer().getUniqueId());
-    }
+            @EventHandler
+            public void onClose(InventoryCloseEvent e) {
+                if (e.getPlayer().getUniqueId().equals(player.getUniqueId())) unregister();
+            }
 
-    @EventHandler
-    public void onClose(PlayerQuitEvent e) {
-        if (!opened.containsKey(e.getPlayer().getUniqueId())) return;
-        opened.remove(e.getPlayer().getUniqueId());
-    }
+            @EventHandler
+            public void onQuit(PlayerQuitEvent e) {
+                if (e.getPlayer().getUniqueId().equals(player.getUniqueId())) unregister();
+            }
 
-    @EventHandler
-    public void onClose(PlayerKickEvent e) {
-        if (!opened.containsKey(e.getPlayer().getUniqueId())) return;
-        opened.remove(e.getPlayer().getUniqueId());
-    }
+            @EventHandler
+            public void onDeath(PlayerDeathEvent e) {
+                if (e.getPlayer().getUniqueId().equals(player.getUniqueId())) unregister();
+            }
 
+            @EventHandler
+            public void onClose(PlayerKickEvent e) {
+                if (e.getPlayer().getUniqueId().equals(player.getUniqueId())) unregister();
+            }
+
+            public void unregister() {
+                HandlerList.unregisterAll(this);
+            }
+        }, plugin);
+    }
 
     @Override
     public @NotNull Map<String, Object> serialize() {
         return null;
     }
 
-    private record DuckButton(ItemStack item, Consumer<InventoryClickEvent> onClick) {
+    private class DuckButton implements Delayed {
+
+        private final ItemStack item;
+        public ItemStack item() {return item;}
+        private final Consumer<InventoryClickEvent> onClick;
+        public Consumer<InventoryClickEvent> onClick() {return onClick;}
+        private final long expiryTime;
+        public DuckButton(ItemStack item, Consumer<InventoryClickEvent> onClick) {
+            this.item = item;
+            this.onClick = onClick;
+
+            this.expiryTime = System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(5);
+        }
+
+        @Override
+        public long getDelay(@NotNull TimeUnit unit) {
+            long diff = expiryTime - System.currentTimeMillis();
+            return unit.convert(diff, TimeUnit.MILLISECONDS);
+        }
+
+        @Override
+        public int compareTo(@NotNull Delayed o) {
+            return 0;
+        }
+    }
+
+    /**
+     * DYNAMIC should be used if items in an inventory DO change for each player
+     * STATIC should be used if items in an inventory DO NOT change for each player
+     *
+     * @author GamerDuck123
+     */
+    public enum Type {
+        DYNAMIC,
+        STATIC;
     }
 
 }
