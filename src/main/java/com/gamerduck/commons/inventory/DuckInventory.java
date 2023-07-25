@@ -233,6 +233,7 @@ public class DuckInventory implements ConfigurationSerializable, Listener {
         else if (type == Type.DYNAMIC) {
             Inventory cloned = Bukkit.createInventory(player, inventorySize, inventoryName);
             cloned.setContents(inventory.getContents().clone());
+            player.openInventory(cloned);
             startDynamicListener(player, cloned);
         }
         return this;
