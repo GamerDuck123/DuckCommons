@@ -17,6 +17,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
@@ -32,7 +33,7 @@ import static net.kyori.adventure.text.minimessage.MiniMessage.miniMessage;
 import static org.bukkit.Material.AIR;
 import static org.bukkit.persistence.PersistentDataType.STRING;
 
-public class DuckInventory implements ConfigurationSerializable, Listener {
+public class DuckInventory implements ConfigurationSerializable, Listener, InventoryHolder {
     final NamespacedKey key;
     final HashMap<UUID, DuckButton> buttons = Maps.newHashMap();
     final ExpiringMap<UUID, DuckButton> dynamicButtons;
@@ -57,6 +58,7 @@ public class DuckInventory implements ConfigurationSerializable, Listener {
             plugin.getServer().getPluginManager().registerEvents(new Listener() {
                 @EventHandler
                 public void onClick(InventoryClickEvent e) {
+                    if (!(e.getInventory() instanceof DuckInventory)) return;
                     if (e.getClickedInventory() != null && inventory != null && e.getClickedInventory().equals(inventory)) {
                         e.setCancelled(cancelled);
                         if (e.getCurrentItem() == null || e.getCurrentItem().getType() == AIR) return;
@@ -243,7 +245,8 @@ public class DuckInventory implements ConfigurationSerializable, Listener {
         plugin.getServer().getPluginManager().registerEvents(new Listener() {
             @EventHandler
             public void onClick(InventoryClickEvent e) {
-                if (!e.getWhoClicked().getUniqueId().equals(player.getUniqueId())
+                if (!(e.getInventory() instanceof DuckInventory)
+                        || !e.getWhoClicked().getUniqueId().equals(player.getUniqueId())
                         || e.getCurrentItem() == null || e.getCurrentItem().getType() == AIR
                         || e.getClickedInventory() == null && cloned == null) return;
                 if (e.getClickedInventory().equals(cloned)) {
@@ -288,6 +291,11 @@ public class DuckInventory implements ConfigurationSerializable, Listener {
     @Override
     public @NotNull Map<String, Object> serialize() {
         return null;
+    }
+
+    @Override
+    public @NotNull Inventory getInventory() {
+        return inventory;
     }
 
     private class DuckButton {
