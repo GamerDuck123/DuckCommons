@@ -58,7 +58,7 @@ public class DuckInventory implements ConfigurationSerializable, Listener, Inven
             plugin.getServer().getPluginManager().registerEvents(new Listener() {
                 @EventHandler
                 public void onClick(InventoryClickEvent e) {
-                    if (!(e.getInventory() instanceof DuckInventory)) return;
+                    if (!(e.getInventory().getHolder() instanceof DuckInventory)) return;
                     if (e.getClickedInventory() != null && inventory != null && e.getClickedInventory().equals(inventory)) {
                         e.setCancelled(cancelled);
                         if (e.getCurrentItem() == null || e.getCurrentItem().getType() == AIR) return;
@@ -245,8 +245,7 @@ public class DuckInventory implements ConfigurationSerializable, Listener, Inven
         plugin.getServer().getPluginManager().registerEvents(new Listener() {
             @EventHandler
             public void onClick(InventoryClickEvent e) {
-                if (!(e.getInventory() instanceof DuckInventory)
-                        || !e.getWhoClicked().getUniqueId().equals(player.getUniqueId())
+                if (!e.getWhoClicked().getUniqueId().equals(player.getUniqueId())
                         || e.getCurrentItem() == null || e.getCurrentItem().getType() == AIR
                         || e.getClickedInventory() == null && cloned == null) return;
                 if (e.getClickedInventory().equals(cloned)) {
