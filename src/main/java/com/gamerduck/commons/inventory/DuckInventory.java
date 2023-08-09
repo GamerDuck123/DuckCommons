@@ -51,7 +51,7 @@ public class DuckInventory implements ConfigurationSerializable, Listener, Inven
         this.type = type;
         this.inventoryName = name;
         this.inventorySize = size;
-        this.inventory = Bukkit.createInventory(null, size, name);
+        this.inventory = Bukkit.createInventory(this, size, name);
         this.cancelled = true;
         if (type == STATIC) {
             dynamicButtons = null;
@@ -233,7 +233,7 @@ public class DuckInventory implements ConfigurationSerializable, Listener, Inven
     public DuckInventory open(Player player) {
         if (type == STATIC) player.openInventory(inventory);
         else if (type == Type.DYNAMIC) {
-            Inventory cloned = Bukkit.createInventory(player, inventorySize, inventoryName);
+            Inventory cloned = Bukkit.createInventory(this, inventorySize, inventoryName);
             cloned.setContents(inventory.getContents().clone());
             player.openInventory(cloned);
             startDynamicListener(player, cloned);
